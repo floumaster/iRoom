@@ -1,0 +1,43 @@
+.teamsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.teams {
+    width: 80%;
+    background-color: rgb(231, 231, 231);
+    padding: 20px;
+}
+
+.teamsTitleWrapper{
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.teamsList{
+    margin-top: 50px;
+}
+
+.teamWrapper{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.teamColor{
+    display: table-cell;
+    width: 40px;
+    height: 40px;
+    border: 1px solid gray;
+}
+
+.teamName{
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}

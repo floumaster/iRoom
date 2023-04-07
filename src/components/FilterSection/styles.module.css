@@ -1,0 +1,66 @@
+.filterWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.filter{
+    width: 80%;
+    background-color: rgb(231, 231, 231);
+    padding: 20px;
+}
+
+.filterTitle {
+    font-size: 25px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.filterItemTitle{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.filterSubItemWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.filterSubItemTitle{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.rangeWrapper {
+    margin-top: 40px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+}
+
+.startRangeWrapper{
+    width: 45%;
+    display: flex;
+    align-items: center;
+}
+
+.startRangeTitle{
+    display: flex;
+    margin: 0;
+}
+
+.startRangeInput{
+    width: 100%;
+    margin-left: 20px;
+    height: 25px;
+}
+
+.buttonsWrapper{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}

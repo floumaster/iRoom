@@ -1,0 +1,37 @@
+.timeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titleWrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title{
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: block;
+}
+
+.date{
+    display: block;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.datePickerWrapper{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

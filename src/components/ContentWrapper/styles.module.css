@@ -1,0 +1,16 @@
+.contentWrapper {
+    width: 94%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contentLeftWrapper {
+    width: 20%;
+    height: 100%;
+}
+
+.contentRightWrapper{
+    width: 78%;
+    height: 100%;
+}
