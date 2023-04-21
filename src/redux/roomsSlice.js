@@ -127,9 +127,12 @@ const roomsSlice = createSlice({
         },
         addBookingToRoom(state, action){
             state.rooms.find(room => room.id === action.payload.roomId).bookingsIds.push(action.payload.bookingId)
+        },
+        createRoom(state, action){
+            state.rooms.push(action.payload)
         }
     }
 })
 
 export default roomsSlice.reducer
-export const { setRooms, addBookingToRoom } = roomsSlice.actions
+export const { setRooms, addBookingToRoom, createRoom } = roomsSlice.actions

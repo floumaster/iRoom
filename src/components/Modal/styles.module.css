@@ -1,6 +1,5 @@
 .modalWrapper{
     width: 600px;
-    height: 400px;
     background-color: white;
     position: fixed;
     top: calc(50% - 200px);

@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './styles.module.css'
 import AdminNavigation from "../../AdminNavigation/AdminNavigation";
 import AdminEditor from "../../AdminEditor/AdminEditor";
 import AdminTimeEditor from "../../AdminTimeEditor/AdminTimeEditor";
 import AdminFloorsEditor from "../../AdminFloorsEditor/AdminFloorsEditor";
 import AdminAssetsEditor from "../../AdminAssetsEditor/AdminAssetsEditor";
+import AdminPurposesEditor from "../../AdminPurposesEditor/AdminPurposesEditor";
+import AdminUsersEditor from "../../AdminUsersEditor/AdminUsersEditor";
+import AdminTeamsEditor from "../../AdminTeamsEditor/AdminTeamsEditor";
 
 const AdminPanel = () => {
+
+    const getCurrentChildComponent = () => {
+        return navElements.find(element => element.id === activeItemId).component
+    }
+
+    const [activeItemId, setActiveItemId] = useState(1)
+    const [title, setTitle] = useState('')
 
     const navElements = [
         {
@@ -17,7 +27,7 @@ const AdminPanel = () => {
         {
             id: 2,
             name: 'Floors + Rooms',
-            component: <AdminFloorsEditor />
+            component: <AdminFloorsEditor setContentTitle={setTitle}/>
         },
         {
             id: 3,
@@ -26,15 +36,18 @@ const AdminPanel = () => {
         },
         {
             id: 4,
-            name: 'Purposes'
+            name: 'Purposes',
+            component: <AdminPurposesEditor />
         },
         {
             id: 5,
-            name: 'Users'
+            name: 'Users',
+            component: <AdminUsersEditor />
         },
         {
             id: 6,
-            name: 'Business units'
+            name: 'Business units',
+            component: <AdminTeamsEditor />
         }
     ]
 
@@ -57,12 +70,9 @@ const AdminPanel = () => {
         }
     }
 
-    const getCurrentChildComponent = () => {
-        return navElements.find(element => element.id === activeItemId).component
-    }
-
-    const [activeItemId, setActiveItemId] = useState(1)
-    const contentTitle = getContentTitle()
+    useEffect(() => {
+        setTitle(getContentTitle())
+    }, [activeItemId])
 
     return (
         <div className={styles.contentWrapper}>
@@ -72,7 +82,7 @@ const AdminPanel = () => {
                 setActiveItemId={setActiveItemId}
             />
             <AdminEditor
-                title={contentTitle}
+                title={title}
             >
                 {
                     getCurrentChildComponent()

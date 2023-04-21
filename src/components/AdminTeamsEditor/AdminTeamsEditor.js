@@ -6,20 +6,23 @@ import { useDispatch } from 'react-redux'
 import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFunk, setModalTitle } from '../../redux/modalSlice'
 import { createAsset } from '../../redux/assetsSlice'
 import { v4 as uuidv4 } from 'uuid';
+import { addTeam } from '../../redux/teamsSlice'
 
-const assetCreateForm = (handleChangeValue) => {
+const businessUnitCreateForm = (handleChangeValue, handleChangeColor) => {
     return () => {
         return (
             <div className={styles.formWrapper}>
                 <input className={styles.input} onChange={handleChangeValue} placeholder='Title'/>
+                <input className={styles.input} onChange={handleChangeColor} type="color" />
             </div>
         )
     }
 }
 
-const AdminAssetsEditor = () => {
+const AdminTeamsEditor = () => {
 
     const [title, setTitle] = useState('')
+    const [color, setColor] = useState('')
 
     const handleChangeValue = (e) =>{
         if(e.target.value.length === 0){
@@ -31,30 +34,35 @@ const AdminAssetsEditor = () => {
         setTitle(e.target.value)
     }
 
-    const assetCreate = (title) => {
+    const handleChangeColor = (e) =>{
+        setColor(e.target.value)
+    }
+
+    const teamCreate = (title, color) => {
         return () => {
-            dispatch(createAsset(
+            dispatch(addTeam(
                 {
                     id: uuidv4(),
-                    name: title
-                }
+                    name: title,
+                    color
+                },
             ))
             dispatch(setIsModalVisible(false))
         }
     }
 
     useEffect(() => {
-        dispatch(setOnSubmitFunk(assetCreate(title)))
-    }, [title])
+        dispatch(setOnSubmitFunk(teamCreate(title, color)))
+    }, [title, color])
 
     const dispatch = useDispatch()
     
-    const assets = useSelector(store => store.assetsSlice.assets)
+    const teams = useSelector(store => store.teamsSlice.teams)
     
     const setModalInfo = () => {
         dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(assetCreateForm(handleChangeValue)))
-        dispatch(setModalTitle('Create asset'))
+        dispatch(setModalContent(businessUnitCreateForm(handleChangeValue, handleChangeColor)))
+        dispatch(setModalTitle('Create business unit'))
         dispatch(setIsModalVisible(true))
     }
 
@@ -65,14 +73,14 @@ const AdminAssetsEditor = () => {
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.buttonWrapper}>
-                <PrimaryButton text="+ ASSET" onClick={openFloorCreateModal}/>
+                <PrimaryButton text="+ BUSINESS UNIT" onClick={openFloorCreateModal}/>
             </div>
             <div className={styles.floorsWrapper}>
                 {
-                    assets.map(floor => {
+                    teams.map(team => {
                         return (
                             <div className={styles.floorWrapper}>
-                                <p className={styles.floorTitle}>{floor.name}</p>
+                                <p className={styles.floorTitle}>{team.name}</p>
                             </div>
                         )
                     })
@@ -82,5 +90,5 @@ const AdminAssetsEditor = () => {
     )
 }
 
-export default AdminAssetsEditor
+export default AdminTeamsEditor
 

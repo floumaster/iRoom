@@ -23,9 +23,11 @@ const purposesSlice = createSlice({
         ]
     },
     reducers: {
-        
+        createPurpose(state, action) {
+            state.purposes.push(action.payload)
+        }
     }
 })
 
 export default purposesSlice.reducer
-//export const { setAssets } = assetsSlice.actions
+export const { createPurpose } = purposesSlice.actions

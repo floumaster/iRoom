@@ -41,26 +41,13 @@ const teamsSlice = createSlice({
             },
         ]
     },
-    // reducers: {
-    //     addCategory(state, action) {
-    //         state.categories.push(action.payload)
-    //     },
-    //     editCategory(state, action) {
-    //         state.categories = state.categories.map(category => {
-    //             if(category.id === action.payload.id){
-    //                 return {
-    //                     ...category,
-    //                     name: action.payload.name,
-    //                     color: action.payload.color,
-    //                     iconName: action.payload.iconName,
-    //                     id: action.payload.id
-    //                 }
-    //             }
-    //             return category
-    //         })
-    //     }
-    // }
+    reducers: {
+        addTeam(state, action) {
+            console.log(action.payload)
+            state.teams.push(action.payload)
+        },
+    }
 })
 
 export default teamsSlice.reducer
-//export const { addCategory, editCategory } = categorySlice.actions
+export const { addTeam } = teamsSlice.actions

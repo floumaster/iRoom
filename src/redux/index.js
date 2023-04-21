@@ -10,6 +10,7 @@ import periodSlice from './periodSlice'
 import recurringsSlice from './recurringsSlice'
 import purposesSlice from './purposesSlice'
 import modalSlice from './modalSlice'
+import usersSlice from './usersSlice'
 
 const rootReducer = combineReducers({
     roomsSlice: roomsSlice,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     periodSlice: periodSlice,
     recurringsSlice: recurringsSlice,
     purposesSlice: purposesSlice,
-    modalSlice: modalSlice
+    modalSlice: modalSlice,
+    usersSlice: usersSlice
 })
 
 export const store = configureStore({

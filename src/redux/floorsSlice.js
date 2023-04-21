@@ -42,9 +42,12 @@ const floorsSlice = createSlice({
         },
         createFloor(state, action) {
             state.floors.push(action.payload)
+        },
+        addRoomToFloor(state, action){
+            state.floors.find(floor => floor.id === action.payload.floorId).roomsIds.push(action.payload.roomId)
         }
     }
 })
 
 export default floorsSlice.reducer
-export const { setFloors, createFloor } = floorsSlice.actions
+export const { setFloors, createFloor, addRoomToFloor } = floorsSlice.actions

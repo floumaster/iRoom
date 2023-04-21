@@ -11,7 +11,7 @@ const Modal = () => {
 
     const modalContent = useSelector(store => store.modalSlice.modalContent)
     const isSubmitDisabled = useSelector(store => store.modalSlice.isSubmitDisabled)
-    console.log(isSubmitDisabled)
+    const modalTitle = useSelector(store => store.modalSlice.title)
     const onSubmit = useSelector(store => store.modalSlice.onSubmit)
 
     const closeButton = () => {
@@ -21,7 +21,7 @@ const Modal = () => {
     return (
         <div className={styles.modalWrapper}>
             <div className={styles.modalHeader}>
-                <p className={styles.title}>Create floor</p>
+                <p className={styles.title}>{modalTitle}</p>
             </div>
             <div className={styles.contentWrapper}>
                 {

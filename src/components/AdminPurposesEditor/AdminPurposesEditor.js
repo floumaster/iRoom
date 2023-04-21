@@ -4,20 +4,20 @@ import { useSelector } from 'react-redux'
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFunk, setModalTitle } from '../../redux/modalSlice'
-import { createAsset } from '../../redux/assetsSlice'
+import { createPurpose } from '../../redux/purposesSlice'
 import { v4 as uuidv4 } from 'uuid';
 
-const assetCreateForm = (handleChangeValue) => {
+const purposeCreateForm = (handleChangeValue) => {
     return () => {
         return (
             <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeValue} placeholder='Title'/>
+                <input className={styles.input} onChange={handleChangeValue} placeholder='Purpose'/>
             </div>
         )
     }
 }
 
-const AdminAssetsEditor = () => {
+const AdminPurposesEditor = () => {
 
     const [title, setTitle] = useState('')
 
@@ -33,10 +33,10 @@ const AdminAssetsEditor = () => {
 
     const assetCreate = (title) => {
         return () => {
-            dispatch(createAsset(
+            dispatch(createPurpose(
                 {
                     id: uuidv4(),
-                    name: title
+                    value: title
                 }
             ))
             dispatch(setIsModalVisible(false))
@@ -49,12 +49,12 @@ const AdminAssetsEditor = () => {
 
     const dispatch = useDispatch()
     
-    const assets = useSelector(store => store.assetsSlice.assets)
+    const purposes = useSelector(store => store.purposesSlice.purposes)
     
     const setModalInfo = () => {
         dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(assetCreateForm(handleChangeValue)))
-        dispatch(setModalTitle('Create asset'))
+        dispatch(setModalContent(purposeCreateForm(handleChangeValue)))
+        dispatch(setModalTitle('Create purpose'))
         dispatch(setIsModalVisible(true))
     }
 
@@ -69,10 +69,10 @@ const AdminAssetsEditor = () => {
             </div>
             <div className={styles.floorsWrapper}>
                 {
-                    assets.map(floor => {
+                    purposes.map(floor => {
                         return (
                             <div className={styles.floorWrapper}>
-                                <p className={styles.floorTitle}>{floor.name}</p>
+                                <p className={styles.floorTitle}>{floor.value}</p>
                             </div>
                         )
                     })
@@ -82,5 +82,5 @@ const AdminAssetsEditor = () => {
     )
 }
 
-export default AdminAssetsEditor
+export default AdminPurposesEditor
 
