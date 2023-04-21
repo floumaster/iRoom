@@ -9,7 +9,7 @@ const ContentWrapper = () => {
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.contentLeftWrapper}>
-                <TimeManager />
+                <TimeManager title="Book a room"/>
                 <FilterSection />
                 <Teams />
             </div>

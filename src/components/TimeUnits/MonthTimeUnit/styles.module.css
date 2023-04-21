@@ -1,0 +1,35 @@
+.subTimesWrapper{
+    height: 100%;
+    border: 1px solid gray;
+    display: flex;
+    flex: 1;
+    cursor: pointer;
+}
+
+.daysInWeekWrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.dayInWeekWrapper{
+    height: 100%;
+    width: calc(100% / 7);
+}
+
+.dayInWeekTitle{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+}
+
+.dayInWeekAvailability{
+    height: 50%;
+    border: 1px solid gray;
+}
+
+.dayInWeekAvailability:hover {
+    background-color: rgb(185, 185, 185) !important;
+}

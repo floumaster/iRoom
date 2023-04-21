@@ -1,0 +1,22 @@
+.subTimesWrapper{
+    height: 100%;
+    border: 1px solid gray;
+    display: flex;
+    flex: 1;
+    cursor: pointer;
+}
+
+.subtimeBooked{
+    width: 100%;
+    height: 100%;
+    background-color: red;
+}
+
+.subtime{
+    width: 100%;
+    height: 100%;
+}
+
+.subtime:hover, .subtimeBooked:hover{
+    background-color: rgb(185, 185, 185)!important;
+}

@@ -6,12 +6,12 @@ const timesSlice = createSlice({
         times: [
             {
                 id: 'asdhj',
-                title: 8,
+                title: '08',
                 time: 8,
             },
             {
                 id: 'asdhj1',
-                title: 9,
+                title: '09',
                 time: 9,
             },
             {
@@ -71,26 +71,12 @@ const timesSlice = createSlice({
             }
         ]
     },
-    // reducers: {
-    //     addCategory(state, action) {
-    //         state.categories.push(action.payload)
-    //     },
-    //     editCategory(state, action) {
-    //         state.categories = state.categories.map(category => {
-    //             if(category.id === action.payload.id){
-    //                 return {
-    //                     ...category,
-    //                     name: action.payload.name,
-    //                     color: action.payload.color,
-    //                     iconName: action.payload.iconName,
-    //                     id: action.payload.id
-    //                 }
-    //             }
-    //             return category
-    //         })
-    //     }
-    // }
+    reducers: {
+        editTimes(state, action) {
+            state.times = action.payload
+        },
+    }
 })
 
 export default timesSlice.reducer
-//export const { addCategory, editCategory } = categorySlice.actions
+export const { editTimes } = timesSlice.actions

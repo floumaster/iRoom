@@ -36,26 +36,15 @@ const floorsSlice = createSlice({
             }
         ]
     },
-    // reducers: {
-    //     addCategory(state, action) {
-    //         state.categories.push(action.payload)
-    //     },
-    //     editCategory(state, action) {
-    //         state.categories = state.categories.map(category => {
-    //             if(category.id === action.payload.id){
-    //                 return {
-    //                     ...category,
-    //                     name: action.payload.name,
-    //                     color: action.payload.color,
-    //                     iconName: action.payload.iconName,
-    //                     id: action.payload.id
-    //                 }
-    //             }
-    //             return category
-    //         })
-    //     }
-    // }
+    reducers: {
+        setFloors(state, action) {
+            state.floors = action.payload
+        },
+        createFloor(state, action) {
+            state.floors.push(action.payload)
+        }
+    }
 })
 
 export default floorsSlice.reducer
-//export const { addCategory, editCategory } = categorySlice.actions
+export const { setFloors, createFloor } = floorsSlice.actions

@@ -5,6 +5,11 @@ import timesSlice from './timesSlice'
 import assetsSlice from './assetsSlice'
 import bookingsSlice from './bookingsSlice'
 import teamsSlice from './teamsSlice'
+import dateSlice from './dateSlice'
+import periodSlice from './periodSlice'
+import recurringsSlice from './recurringsSlice'
+import purposesSlice from './purposesSlice'
+import modalSlice from './modalSlice'
 
 const rootReducer = combineReducers({
     roomsSlice: roomsSlice,
@@ -12,7 +17,12 @@ const rootReducer = combineReducers({
     timesSlice: timesSlice,
     assetsSlice: assetsSlice,
     bookingsSlice: bookingsSlice,
-    teamsSlice: teamsSlice
+    teamsSlice: teamsSlice,
+    dateSlice: dateSlice,
+    periodSlice: periodSlice,
+    recurringsSlice: recurringsSlice,
+    purposesSlice: purposesSlice,
+    modalSlice: modalSlice
 })
 
 export const store = configureStore({

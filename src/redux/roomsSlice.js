@@ -7,7 +7,7 @@ const roomsSlice = createSlice({
             {
                 id: 'khagkjfdsflk',
                 name: 'Room 1',
-                capacity: 200,
+                capacity: 100,
                 assetsIds: [
                     'fdsgdsg',
                     'sdfgsdfg',
@@ -34,7 +34,7 @@ const roomsSlice = createSlice({
             {
                 id: 'asdfsadf',
                 name: 'Room 3',
-                capacity: 200,
+                capacity: 300,
                 assetsIds: [
                     'sdfgsdfg',
                     'fdghfdgh',
@@ -87,7 +87,7 @@ const roomsSlice = createSlice({
             {
                 id: 'fdghfdgh',
                 name: 'Room 7',
-                capacity: 200,
+                capacity: 300,
                 assetsIds: [
                     'fdsgdsg'
                 ],
@@ -111,7 +111,7 @@ const roomsSlice = createSlice({
             {
                 id: 'awerawer',
                 name: 'Room 9',
-                capacity: 200,
+                capacity: 100,
                 assetsIds: [
                     'fdsgdsg'
                 ],
@@ -122,9 +122,14 @@ const roomsSlice = createSlice({
         ]
     },
     reducers: {
-        
+        setRooms(state, action) {
+            state.rooms = action.payload
+        },
+        addBookingToRoom(state, action){
+            state.rooms.find(room => room.id === action.payload.roomId).bookingsIds.push(action.payload.bookingId)
+        }
     }
 })
 
 export default roomsSlice.reducer
-//export const { addSpending, completeSpending } = spendingsSlice.actions
+export const { setRooms, addBookingToRoom } = roomsSlice.actions

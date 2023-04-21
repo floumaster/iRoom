@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css"
 import Scheduler from "../Scheduler/Scheduler";
+import { useDispatch, useSelector } from "react-redux";
+import { setPeriod } from "../../redux/periodSlice";
 
 
 const periods = [
@@ -20,10 +22,14 @@ const periods = [
 
 const SchedulerWrapper = () => {
 
-    const [activePeriodId, setActiveperiodId] = useState(0)
+    const dispatch = useDispatch()
+
+    const currentPeriod = useSelector(store => store.periodSlice.period)
 
     const handlePeriodChange = (id) => {
-        setActiveperiodId(id)
+        dispatch(setPeriod({
+            id
+        }))
     }
 
     return (
@@ -31,7 +37,7 @@ const SchedulerWrapper = () => {
             <nav className={styles.periodSwitcher}>
                 {
                     periods.map(period => {
-                        const currentPeriodClassname = activePeriodId === period.id ? `${styles.periodName} ${styles.activePeriod}` : styles.periodName
+                        const currentPeriodClassname = currentPeriod.id === period.id ? `${styles.periodName} ${styles.activePeriod}` : styles.periodName
 
                         return (
                             <p

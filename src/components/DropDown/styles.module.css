@@ -1,0 +1,40 @@
+.dropDownWrapper{
+    width: 100%;
+    position:relative
+}
+
+.valueWrapper{
+    width: 100%;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+
+}
+
+.value{
+    margin: 0;
+}
+
+.optionsWrapper{
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+    padding: 0;
+    position: absolute;
+}
+
+.option{
+    width: 100%;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    cursor: pointer;
+}
+
+.option:hover{
+    background-color: rgb(229, 229, 229);
+}
+
+.optionsWrapper::-webkit-scrollbar {
+    display: none;
+}

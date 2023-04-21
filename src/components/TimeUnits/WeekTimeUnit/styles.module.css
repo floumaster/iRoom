@@ -1,0 +1,11 @@
+.subTimesWrapper{
+    height: 100%;
+    border: 1px solid gray;
+    display: flex;
+    flex: 1;
+    cursor: pointer;
+}
+
+.subTimesWrapper:hover{
+    background-color: rgb(185, 185, 185) !important;
+}

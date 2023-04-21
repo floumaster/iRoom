@@ -6,50 +6,62 @@ const bookingsSlice = createSlice({
         bookings: [
             {
                 id: 'fdsgdsg',
-                dateStart: '2023-01-01T17:00',
-                dateEnd: '2023-01-01T18:45',
+                dates: [
+                    '2023-01-01'
+                ],
+                timeStart: '17:00',
+                timeEnd: '18:45',
                 userId: '',
                 teamId: 'fdsgdsg',
-                roomId: 'khagkjfdsflk'
+                roomId: 'khagkjfdsflk',
+                description: '',
+                purposeId: 'loiuoiuo',
+                title: 'kekw'
             },
             {
                 id: 'asdfsadf',
-                dateStart: '2023-01-01T12:00',
-                dateEnd: '2023-01-01T14:45',
+                dates: [
+                    '2023-01-01'
+                ],
+                timeStart: '12:00',
+                timeEnd: '14:45',
                 userId: '',
                 teamId: 'fdghfdgh',
-                roomId: 'fdghfdgh'
+                roomId: 'fdghfdgh',
+                description: '',
+                purposeId: 'klasjdffkj',
+                title: 'sdkf'
             },
             {
                 id: 'dfghfdghf',
-                dateStart: '2023-01-01T10:00',
-                dateEnd: '2023-01-01T20:00',
+                dates: [
+                    '2023-01-01'
+                ],
+                timeStart: '08:00',
+                timeEnd: '21:00',
                 userId: '',
                 teamId: 'cvbncvbn',
-                roomId: 'awerawer'
+                roomId: 'awerawer',
+                description: '',
+                purposeId: 'kljsdafsdlak',
+                title: 'lwekjr'
             },
         ]
     },
-    // reducers: {
-    //     addCategory(state, action) {
-    //         state.categories.push(action.payload)
-    //     },
-    //     editCategory(state, action) {
-    //         state.categories = state.categories.map(category => {
-    //             if(category.id === action.payload.id){
-    //                 return {
-    //                     ...category,
-    //                     name: action.payload.name,
-    //                     color: action.payload.color,
-    //                     iconName: action.payload.iconName,
-    //                     id: action.payload.id
-    //                 }
-    //             }
-    //             return category
-    //         })
-    //     }
-    // }
+    reducers: {
+        addBooking(state, action) {
+            state.bookings.push(action.payload)
+        },
+        editBooking(state, action){
+            state.bookings = state.bookings.map(booking => {
+                if(booking.id === action.payload.id)
+                    return action.payload
+                else
+                    return booking
+            })
+        }
+    }
 })
 
 export default bookingsSlice.reducer
-//export const { addCategory, editCategory } = categorySlice.actions
+export const { addBooking, editBooking } = bookingsSlice.actions

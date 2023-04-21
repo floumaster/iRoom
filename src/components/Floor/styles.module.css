@@ -1,0 +1,31 @@
+.floorWrapper{
+    width: 100%;
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.floorTitleWrapper{
+    width: 100%;
+    height: 60px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    background-color: rgb(228, 228, 228);
+}
+
+.schedulerContentWrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.roomsWrapper{
+    display: flex;
+    flex-direction: column;
+}
