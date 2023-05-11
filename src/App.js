@@ -2,7 +2,7 @@ import styles from "./styles.module.css"
 import HomePage from './components/pages/HomePage/HomePage';
 import CreateBooking from './components/pages/CreateBooking/CreateBooking';
 import EditBooking from "./components/pages/EditBooking/EditBooking";
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from './redux/index'
 import Header from './components/Header/Header';
 import { useSelector } from "react-redux";
@@ -12,6 +12,8 @@ import {
 } from "react-router-dom";
 import AdminPanel from "./components/pages/AdminPanel/AdminPanel";
 import Modal from "./components/Modal/Modal";
+import { getTimes } from "./redux/timesSlice";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    console.log('kekw')
+    dispatch(getTimes())
+  }, [])
 
   const isModalVisible = useSelector(store => store.modalSlice.isModalVisible)
 

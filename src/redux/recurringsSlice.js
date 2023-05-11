@@ -12,23 +12,23 @@ const recurringsSlice = createSlice({
             {
                 id: 'sdfgdsfg',
                 value: 'daily',
-                title: 'Once a day'
-            },
-            {
-                id: 'rthsrhfgsd',
-                value: 'weekly',
-                title: 'Once a week'
-            },
-            {
-                id: 'sdfgdfsh',
-                value: 'monthly',
-                title: 'Once a month'
+                title: 'Daily'
             },
             {
                 id: 'jrtyjghjd',
                 value: 'inTwoDays',
-                title: 'Once every two days'
-            }
+                title: 'Every two days'
+            },
+            {
+                id: 'rthsrhfgsd',
+                value: 'weekly',
+                title: 'Weekly'
+            },
+            {
+                id: 'sdfgdfsh',
+                value: 'monthly',
+                title: 'Monthly'
+            },
         ]
     },
     reducers: {

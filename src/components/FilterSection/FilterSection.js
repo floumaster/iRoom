@@ -189,6 +189,7 @@ const FilterSection = () => {
                         })
                     }
                 </div>
+                <p className={styles.filterItemTitle}>Available</p>
                 <div className={styles.rangeWrapper}>
                     <div className={styles.startRangeWrapper}>
                         <p className={styles.startRangeTitle}>From</p>
@@ -200,8 +201,12 @@ const FilterSection = () => {
                     </div>
                 </div>
                 <div className={styles.buttonsWrapper}>
-                    <PrimaryButton />
-                    <CommonButton text="Reset" onClick={handleResetFilter}/>
+                    <div className={styles.buttonWrapper}>
+                        <CommonButton text="Reset" onClick={handleResetFilter}/>
+                    </div>
+                    <div className={styles.buttonWrapper}>
+                        <PrimaryButton />
+                    </div>
                 </div>
             </form>
         </div>
