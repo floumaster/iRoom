@@ -1,125 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getRooms = createAsyncThunk('getRooms', async function() {
+    const response = await fetch(`http://localhost:3000/room`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
+
+export const createRoom = createAsyncThunk('createRoom', async function(data) {
+    const processedData = {
+        room: data,
+        assetsIds: data.assetsIds
+    }
+    const response = await fetch(`http://localhost:3000/room/addRoom`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(processedData)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
 
 const roomsSlice = createSlice({
     name: 'rooms',
     initialState: {
-        rooms: [
-            {
-                id: 'khagkjfdsflk',
-                name: 'Room 1',
-                capacity: 100,
-                assetsIds: [
-                    'fdsgdsg',
-                    'sdfgsdfg',
-                    'fdghfdgh',
-                ],
-                bookingsIds: [
-                    'fdsgdsg',
-                ]
-            },
-            {
-                id: 'sadfsadf',
-                name: 'Room 2',
-                capacity: 200,
-                assetsIds: [
-                    'reyt',
-                    'dfghfdgh',
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'reyt'
-                ]
-            },
-            {
-                id: 'asdfsadf',
-                name: 'Room 3',
-                capacity: 300,
-                assetsIds: [
-                    'sdfgsdfg',
-                    'fdghfdgh',
-                    'reyt',
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'gdjsfglk'
-                ]
-            },
-            {
-                id: 'sdgfdsg',
-                name: 'Room 4',
-                capacity: 200,
-                assetsIds: [
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'gdjsfglk'
-                ]
-            },
-            {
-                id: 'fghdfgh',
-                name: 'Room 5',
-                capacity: 200,
-                assetsIds: [
-                    'fdsgdsg',
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'gdjsfglk'
-                ]
-            },
-            {
-                id: 'ertergt',
-                name: 'Room 6',
-                capacity: 200,
-                assetsIds: [
-                    'fdsgdsg'
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'gdjsfglk'
-                ]
-            },
-            {
-                id: 'fdghfdgh',
-                name: 'Room 7',
-                capacity: 300,
-                assetsIds: [
-                    'fdsgdsg'
-                ],
-                bookingsIds: [
-                    'asdfsadf'
-                ]
-            },
-            {
-                id: 'ghjgfhj',
-                name: 'Room 8',
-                capacity: 200,
-                assetsIds: [
-                    'fdsgdsg'
-                ],
-                bookingsIds: [
-                    'jgkldfs',
-                    'dsjhgdfks',
-                    'gdjsfglk'
-                ]
-            },
-            {
-                id: 'awerawer',
-                name: 'Room 9',
-                capacity: 100,
-                assetsIds: [
-                    'fdsgdsg'
-                ],
-                bookingsIds: [
-                    'dfghfdghf'
-                ]
-            }
-        ]
+        rooms: []
     },
     reducers: {
         setRooms(state, action) {
@@ -128,11 +39,19 @@ const roomsSlice = createSlice({
         addBookingToRoom(state, action){
             state.rooms.find(room => room.id === action.payload.roomId).bookingsIds.push(action.payload.bookingId)
         },
-        createRoom(state, action){
+    },
+    extraReducers: {
+        [getRooms.fulfilled]: (state, action) => {
+            state.rooms = action.payload.map(room => ({
+                ...room,
+                capacity: parseInt(room.capacity)
+            }))
+        },
+        [createRoom.fulfilled]: (state, action) => {
             state.rooms.push(action.payload)
-        }
+        },
     }
 })
 
 export default roomsSlice.reducer
-export const { setRooms, addBookingToRoom, createRoom } = roomsSlice.actions
+export const { setRooms, addBookingToRoom } = roomsSlice.actions

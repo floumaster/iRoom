@@ -50,7 +50,8 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
                     name: title,
                     capacity: capacity,
                     assetsIds: selectedAssetId,
-                    bookingsIds: []
+                    bookingsIds: [],
+                    floorId: floorId
                 }
             ))
             dispatch(addRoomToFloor({

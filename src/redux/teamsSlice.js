@@ -1,50 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getTeams = createAsyncThunk('getTeams', async function() {
+    const response = await fetch(`http://localhost:3000/team`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
 
 const teamsSlice = createSlice({
     name: 'teams',
     initialState: {
-        teams: [
-            {
-                id: 'fdsgdsg',
-                name: 'Team Auditdata',
-                color: '#eb4034'
-            },
-            {
-                id: 'sdfgsdfg',
-                name: 'Team Spin',
-                color: '#f0cd32'
-            },
-            {
-                id: 'fdghfdgh',
-                name: 'Team Projector',
-                color: '#5fed34'
-            },
-            {
-                id: 'reyt',
-                name: 'Team TV',
-                color: '#34ceed'
-            },
-            {
-                id: 'dfghfdgh',
-                name: 'Team Operable walls',
-                color: '#34eda3'
-            },
-            {
-                id: 'cvbncvbn',
-                name: 'Team Whiteboard',
-                color: '#ed34c8'
-            },
-            {
-                id: 'xzcvxzcv',
-                name: 'Team Power outlets',
-                color: '#3456ed'
-            },
-        ]
+        teams: []
     },
     reducers: {
         addTeam(state, action) {
-            console.log(action.payload)
             state.teams.push(action.payload)
+        },
+    },
+    extraReducers: {
+        [getTeams.fulfilled]: (state, action) => {
+            state.teams = action.payload
         },
     }
 })

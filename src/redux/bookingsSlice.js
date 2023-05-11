@@ -1,58 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getBookings = createAsyncThunk('getBookings', async function() {
+    const response = await fetch(`http://localhost:3000/booking`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
+
+export const addBooking = createAsyncThunk('addBooking', async function(data) {
+    const response = await fetch(`http://localhost:3000/booking/addBooking`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
+
+export const editBooking = createAsyncThunk('editBooking', async function(data) {
+    const response = await fetch(`http://localhost:3000/booking/editBooking`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
 
 const bookingsSlice = createSlice({
     name: 'bookings',
     initialState: {
-        bookings: [
-            {
-                id: 'fdsgdsg',
-                dates: [
-                    '2023-01-01'
-                ],
-                timeStart: '17:00',
-                timeEnd: '18:45',
-                userId: '',
-                teamId: 'fdsgdsg',
-                roomId: 'khagkjfdsflk',
-                description: '',
-                purposeId: 'loiuoiuo',
-                title: 'kekw'
-            },
-            {
-                id: 'asdfsadf',
-                dates: [
-                    '2023-01-01'
-                ],
-                timeStart: '12:00',
-                timeEnd: '14:45',
-                userId: '',
-                teamId: 'fdghfdgh',
-                roomId: 'fdghfdgh',
-                description: '',
-                purposeId: 'klasjdffkj',
-                title: 'sdkf'
-            },
-            {
-                id: 'dfghfdghf',
-                dates: [
-                    '2023-01-01'
-                ],
-                timeStart: '08:00',
-                timeEnd: '21:00',
-                userId: '',
-                teamId: 'cvbncvbn',
-                roomId: 'awerawer',
-                description: '',
-                purposeId: 'kljsdafsdlak',
-                title: 'lwekjr'
-            },
-        ]
+        bookings: []
     },
-    reducers: {
-        addBooking(state, action) {
+    extraReducers: {
+        [getBookings.fulfilled]: (state, action) => {
+            state.bookings = action.payload
+        },
+        [addBooking.fulfilled]: (state, action) => {
             state.bookings.push(action.payload)
         },
-        editBooking(state, action){
+        [editBooking.fulfilled]: (state, action) => {
             state.bookings = state.bookings.map(booking => {
                 if(booking.id === action.payload.id)
                     return action.payload
@@ -64,4 +59,3 @@ const bookingsSlice = createSlice({
 })
 
 export default bookingsSlice.reducer
-export const { addBooking, editBooking } = bookingsSlice.actions

@@ -1,45 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getAssets = createAsyncThunk('getAssets', async function() {
+    const response = await fetch(`http://localhost:3000/assets`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
+
+export const createAsset = createAsyncThunk('createAsset', async function(data) {
+    const response = await fetch(`http://localhost:3000/assets/addAsset`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
 
 const assetsSlice = createSlice({
     name: 'assets',
     initialState: {
-        assets: [
-            {
-                id: 'fdsgdsg',
-                name: 'Mac Lab'
-            },
-            {
-                id: 'sdfgsdfg',
-                name: 'PC Lab'
-            },
-            {
-                id: 'fdghfdgh',
-                name: 'Projector'
-            },
-            {
-                id: 'reyt',
-                name: 'TV'
-            },
-            {
-                id: 'dfghfdgh',
-                name: 'Operable walls'
-            },
-            {
-                id: 'cvbncvbn',
-                name: 'Whiteboard'
-            },
-            {
-                id: 'xzcvxzcv',
-                name: 'Power outlets'
-            },
-        ]
+        assets: []
     },
-    reducers: {
-        createAsset(state, action) {
+    extraReducers: {
+        [getAssets.fulfilled]: (state, action) => {
+            state.assets = action.payload
+        },
+        [createAsset.fulfilled]: (state, action) => {
             state.assets.push(action.payload)
         }
     }
 })
 
 export default assetsSlice.reducer
-export const { createAsset } = assetsSlice.actions

@@ -1,38 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getUsers = createAsyncThunk('getUsers', async function() {
+    const response = await fetch(`http://localhost:3000/user`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
+
+export const createUser = createAsyncThunk('createUser', async function(data) {
+    const response = await fetch(`http://localhost:3000/user/addUsers`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify([data])
+    })
+    const parsedResponse = await response.json()
+    return data
+})
 
 const usersSlice = createSlice({
     name: 'users',
     initialState: {
-        users: [
-            {
-                id: 'fkjsdfl',
-                name: 'Maryna',
-                surname: 'Muzychuk',
-                email: 'marm@gmail.com',
-                businessUnitId: 'fdsgdsg'
-            },
-            {
-                id: 'fkjsdfl',
-                name: 'Dmytro',
-                surname: 'Hero',
-                email: 'dmyh@gmail.com',
-                businessUnitId: 'sdfgsdfg'
-            },
-            {
-                id: 'fkjsdfl',
-                name: 'Illya',
-                surname: 'Lvov',
-                email: 'il@gmail.com',
-                businessUnitId: 'fdghfdgh'
-            },
-            {
-                id: 'fkjsdfl',
-                name: 'Ivan',
-                surname: 'Ivanov',
-                email: 'iviv@gmail.com',
-                businessUnitId: 'reyt'
-            }
-        ]
+        users: []
     },
     reducers: {
         setUsers(state, action){
@@ -41,6 +35,14 @@ const usersSlice = createSlice({
         addUser(state, action){
             state.users.push(action.payload)
         }
+    },
+    extraReducers: {
+        [getUsers.fulfilled]: (state, action) => {
+            state.users = action.payload
+        },
+        [createUser.fulfilled]: (state, action) => {
+            state.users.push(action.payload)
+        },
     }
 })
 

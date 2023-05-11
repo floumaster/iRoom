@@ -13,6 +13,14 @@ import {
 import AdminPanel from "./components/pages/AdminPanel/AdminPanel";
 import Modal from "./components/Modal/Modal";
 import { getTimes } from "./redux/timesSlice";
+import { getAssets } from "./redux/assetsSlice";
+import { getFloors } from "./redux/floorsSlice";
+import { getRooms } from "./redux/roomsSlice";
+import { getBookings } from "./redux/bookingsSlice";
+import { getPurposes } from "./redux/purposesSlice";
+import { getRecurrings } from "./redux/recurringsSlice";
+import { getTeams } from "./redux/teamsSlice";
+import { getUsers } from "./redux/usersSlice";
 import { useEffect } from "react";
 
 const router = createBrowserRouter([
@@ -39,8 +47,15 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('kekw')
     dispatch(getTimes())
+    dispatch(getAssets())
+    dispatch(getFloors())
+    dispatch(getRooms())
+    dispatch(getBookings())
+    dispatch(getPurposes())
+    dispatch(getRecurrings())
+    dispatch(getTeams())
+    dispatch(getUsers())
   }, [])
 
   const isModalVisible = useSelector(store => store.modalSlice.isModalVisible)

@@ -145,7 +145,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 teamId: getTeamIdByName(selectedTeam),
                 purposeId: getPuproseIdByName(purpose),
                 dates: getDatesByRecurrency(),
-                userId: '',
+                userId: null,
                 roomId: room.id,
                 description: description
             }
@@ -161,7 +161,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 teamId: getTeamIdByName(selectedTeam),
                 purposeId: getPuproseIdByName(purpose),
                 dates: getDatesByRecurrency(),
-                userId: '',
+                userId: null,
                 roomId: room.id,
                 description: description
             }

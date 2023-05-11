@@ -9,7 +9,7 @@ import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFun
 import { createRoom } from '../../redux/roomsSlice'
 import { addRoomToFloor } from '../../redux/floorsSlice'
 import CommonButtonWithInput from '../buttons/ButtonWithInput/CommonButton'
-import { addUser, setUsers } from '../../redux/usersSlice'
+import { createUser, setUsers } from '../../redux/usersSlice'
 import { v4 as uuidv4 } from 'uuid';
 import Dropdown from 'react-dropdown'
 import DropdownWithCheckBoxes from '../DropDownWithCheckBoxes/DropDownWithCheckBoxes'
@@ -56,7 +56,7 @@ const AdminUsersEditor = ({ }) => {
 
     const userCreate = (name, surname, email, teamId) => {
         return () => {
-            dispatch(addUser(
+            dispatch(createUser(
                 {
                     id: uuidv4(),
                     name,

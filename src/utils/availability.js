@@ -131,6 +131,7 @@ export const getAllAvailableEndTimes = (times, bookings, currentDate, selectedSt
             hoursWithMinutes.push(`${hour}:${minute}`)
         })
     })
+    console.log(times)
     const prefixDate = currentDate.format('YYYY-MM-DDT')
     const endTimes = []
     const lastHour = parseInt(hoursWithMinutes[hoursWithMinutes.length - 1].split(':')[0])

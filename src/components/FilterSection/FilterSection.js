@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styles from "./styles.module.css"
 import PrimaryButton from "../buttons/PrimaryButton/PrimaryButton";
 import CommonButton from "../buttons/CommonButton/CommonButton";
@@ -24,6 +24,11 @@ const FilterSection = () => {
         title: `${capacity} seats`,
         type: 'checkbox'
     }))
+
+    useEffect(() => {
+        if(backupRooms.length === 0)
+            setBackUpRooms(rooms)
+    }, [rooms])
 
     const filterData = [
         {

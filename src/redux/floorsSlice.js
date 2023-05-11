@@ -1,40 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getFloors = createAsyncThunk('getFloors', async function() {
+    const response = await fetch(`http://localhost:3000/floor`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
 
 const floorsSlice = createSlice({
     name: 'floors',
     initialState: {
-        floors: [
-            {
-                id: 'fjhsg',
-                name: 'One',
-                number: 1,
-                roomsIds: [
-                    'awerawer',
-                    'sdfsa',
-                    'fdghfdgh'
-                ]
-            },
-            {
-                id: 'gfhjfgh',
-                name: 'Two',
-                number: 2,
-                roomsIds: [
-                    'ertergt',
-                    'fghdfgh',
-                    'sdgfdsg'
-                ]
-            },
-            {
-                id: 'xcvbcvxb',
-                name: 'Three',
-                number: 3,
-                roomsIds: [
-                    'asdfsadf',
-                    'sadfsadf',
-                    'khagkjfdsflk'
-                ]
-            }
-        ]
+        floors: []
     },
     reducers: {
         setFloors(state, action) {
@@ -46,6 +26,11 @@ const floorsSlice = createSlice({
         addRoomToFloor(state, action){
             state.floors.find(floor => floor.id === action.payload.floorId).roomsIds.push(action.payload.roomId)
         }
+    },
+    extraReducers: {
+        [getFloors.fulfilled]: (state, action) => {
+            state.floors = action.payload
+        },
     }
 })
 

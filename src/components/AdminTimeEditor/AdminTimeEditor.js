@@ -4,7 +4,7 @@ import Dropdown from 'react-dropdown';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton';
-import { editTimes } from '../../redux/timesSlice';
+import { setTimes } from '../../redux/timesSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -57,7 +57,7 @@ const AdminTimeEditor = () => {
                 time: i,
             })
         }
-        dispatch(editTimes(times))
+        dispatch(setTimes(times))
     }
 
     return (

@@ -1,38 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getRecurrings = createAsyncThunk('getRecurrings', async function() {
+    const response = await fetch(`http://localhost:3000/recurring`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
 
 const recurringsSlice = createSlice({
     name: 'recurrings',
     initialState: {
-        recurrings: [
-            {
-                id: 'sjkdfasklf',
-                value: 'no',
-                title: 'No recurring'
-            },
-            {
-                id: 'sdfgdsfg',
-                value: 'daily',
-                title: 'Daily'
-            },
-            {
-                id: 'jrtyjghjd',
-                value: 'inTwoDays',
-                title: 'Every two days'
-            },
-            {
-                id: 'rthsrhfgsd',
-                value: 'weekly',
-                title: 'Weekly'
-            },
-            {
-                id: 'sdfgdfsh',
-                value: 'monthly',
-                title: 'Monthly'
-            },
-        ]
+        recurrings: []
     },
     reducers: {
         
+    },
+    extraReducers: {
+        [getRecurrings.fulfilled]: (state, action) => {
+            state.recurrings = action.payload
+        },
     }
 })
 
