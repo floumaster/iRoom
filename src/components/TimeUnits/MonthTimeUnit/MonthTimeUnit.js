@@ -3,7 +3,7 @@ import styles from "./styles.module.css"
 import { checkDayForBusiness, getColorByDayAvailability } from "../../../utils/availability";
 import { useSelector } from "react-redux";
 
-const MonthTimeUnit = ({ time, bookingsInCurrentRoom }) => {
+const MonthTimeUnit = ({ time, bookingsInCurrentRoom, timeAvailability }) => {
 
     const times = useSelector(store => store.timesSlice.times)
 
@@ -12,7 +12,7 @@ const MonthTimeUnit = ({ time, bookingsInCurrentRoom }) => {
             <div className={styles.daysInWeekWrapper}>
                 {
                     time.days.map(day => {
-                        const availableTimes = checkDayForBusiness(day, bookingsInCurrentRoom, times)
+                        const availableTimes = day.timeAvailability || times.length * 4
                         const color = getColorByDayAvailability(availableTimes, times)
                         return (
                             <div className={styles.dayInWeekWrapper}>

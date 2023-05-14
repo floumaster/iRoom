@@ -4,8 +4,8 @@ const periodSlice = createSlice({
     name: 'period',
     initialState: {
         period: {
-            id: 1,
-            title: 'Week'
+            id: 0,
+            title: 'Day'
         },
     },
     reducers: {

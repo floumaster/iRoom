@@ -7,7 +7,7 @@ const WeekTimeUnit = ({ time, bookingsInCurrentRoom }) => {
 
     const times = useSelector(store => store.timesSlice.times)
 
-    const availableTimes = checkDayForBusiness(time, bookingsInCurrentRoom, times)
+    const availableTimes = time.timeAvailability || times.length * 4
     const color = getColorByDayAvailability(availableTimes, times)
 
     return (
