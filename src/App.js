@@ -21,7 +21,9 @@ import { getPurposes } from "./redux/purposesSlice";
 import { getRecurrings } from "./redux/recurringsSlice";
 import { getTeams } from "./redux/teamsSlice";
 import { getUsers } from "./redux/usersSlice";
+import Register from "./components/pages/Register/Register";
 import { useEffect } from "react";
+import Login from "./components/pages/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <><Header /><AdminPanel /></>
+  },
+  {
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/register",
+    element: <Register />
   },
 ]);
 
