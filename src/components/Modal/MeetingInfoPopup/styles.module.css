@@ -1,0 +1,47 @@
+.popupWrapper{
+    width: 600px;
+    height: 350px;
+    background-color: #fff;
+    position: fixed;
+    top: calc(50% - 175px);
+    left: calc(50% - 300px);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.headerWrapper{
+    font-weight: bold;
+}
+
+.headerTitle{
+    margin: 0;
+    font-size: 25px;
+}
+
+.contentWrapper{
+    margin-top: 40px;
+}
+
+.contentText{
+    margin: 0;
+    line-height: 25px;
+    font-size: 18px;
+}
+
+.contentText a{
+    font-weight: bold;
+}
+
+.buttonsWrapper{
+    display: flex;
+    flex-direction: 'row';
+    width: 100%;
+    justify-content: space-around;
+}
+
+.buttonWrapper{
+    width: 200px;
+}

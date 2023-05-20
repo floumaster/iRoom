@@ -16,6 +16,7 @@ const Room = ({ room, floor }) => {
     const currentDate = useSelector(store => store.dateSlice.date)
     const [monthTimeAvailability, setMonthTimeAvailability] = useState([])
     const [weekTimeAvailability, setWeekTimeAvailability] = useState([])
+    const [hoveredMeeting, setHoveredMeeting] = useState('')
 
     const weekDays = getNextWeekDays(currentDate)
     const monthDays = getNextMonthWeeks(currentDate)
@@ -113,7 +114,14 @@ const Room = ({ room, floor }) => {
                         currentPeriod.id === 1 ?
                             (weekTimeAvailability.length ? weekTimeAvailability : timesUnits) : timesUnits).map(timesUnit => {
                         return isDayPeriod ? (
-                            <DayTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor}/>
+                            <DayTimeUnit
+                                time={timesUnit}
+                                setHoveredMeeting={setHoveredMeeting}
+                                hoveredMeeting={hoveredMeeting}
+                                bookingsInCurrentRoom={bookingsInCurrentRoom}
+                                room={room}
+                                floor={floor}
+                            />
                         ) : isWeekPeriod ? (
                             <WeekTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor}/>
                         ) : <MonthTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor} />

@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 const schema = yup.object({
     login: yup
         .string()
-        .matches(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,"Invalid email format")
+        .matches(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,"Incorrect format: @ or . is missed")
         .required('Email is required'),
-    password: yup.string().required('Too short password'),
+    password: yup.string().required('Password is required'),
   }).required();
 
 const Login = () => {

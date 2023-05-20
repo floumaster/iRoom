@@ -51,10 +51,6 @@
     height: 25%;
 }
 
-.minute:hover{
-    background-color: rgb(185, 185, 185)!important;
-}
-
 .minutesWrapper{
     width: 100%;
 }

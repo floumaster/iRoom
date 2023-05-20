@@ -1,17 +1,19 @@
 import React from "react";
 import styles from "./styles.module.css"
 import { checkTimeForBooking } from "../../../utils/timeProcessing";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setBookingContent, setIsModalVisible } from "../../../redux/meetingModalSlice";
 
 const minutes = ['00', 15, 30, 45]
 
-const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor }) => {
-
+const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeting, hoveredMeeting }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const teams = useSelector(store => store.teamsSlice.teams)
     const currentDate = useSelector(store => store.dateSlice.date)
+    const currentUser = useSelector(store => store.usersSlice.currentUser)
 
     const getTeamByBooking = (booking) => {
         const teamId = booking.teamId
@@ -22,8 +24,20 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor }) => {
         navigate('/createBooking', { state: { bookingsInCurrentRoom, room, floor, time } })
     }
 
-    const navigateToBookingEdit = (bookingNow) => {
-        navigate('/editBooking', { state: { bookingsInCurrentRoom, bookingNow, room, floor, time } })
+    const onExistingBookingClick = (bookingNow) => {
+        dispatch(setBookingContent({
+            ...bookingNow,
+            userClicked: currentUser,
+            bookingsInCurrentRoom,
+            room,
+            floor,
+            time
+        }))
+        dispatch(setIsModalVisible(true))
+    }
+
+    const onMeetingPartHover = (id) => {
+        setHoveredMeeting(id)
     }
 
     return (
@@ -38,14 +52,16 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor }) => {
                     return (
                         <div
                             className={bookingNow ? styles.subtimeBooked : styles.subtime}
-                            style={{backgroundColor: bookingNow ? bookedTeam?.color : 'transparent'}}
+                            style={{backgroundColor: bookingNow ? bookingNow.id === hoveredMeeting ? 'rgb(185, 185, 185)' : bookedTeam?.color : 'transparent'}}
                             onClick={() => {
                                 if(!bookingNow)
                                     navigateToBookingCreate(`${time.title}:${minute}`)
                                 else{
-                                    navigateToBookingEdit(bookingNow)
+                                    onExistingBookingClick(bookingNow)
                                 }
-                            }}>
+                            }}
+                            onMouseOver={() => onMeetingPartHover(bookingNow?.id)}
+                            >
                             
                         </div>
                     )
