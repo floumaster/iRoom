@@ -1,5 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+export const addFloor = createAsyncThunk('addFloor', async function(floor) {
+    const response = await fetch(`http://localhost:3000/floor/addFloor`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(floor)
+    })
+    const parsedResponse = await response.json()
+    return floor
+})
+
 export const getFloors = createAsyncThunk('getFloors', async function() {
     const response = await fetch(`http://localhost:3000/floor`, {
         method: "GET",
@@ -30,6 +42,9 @@ const floorsSlice = createSlice({
     extraReducers: {
         [getFloors.fulfilled]: (state, action) => {
             state.floors = action.payload
+        },
+        [addFloor.fulfilled]: (state, action) => {
+            state.floors.push(action.payload)
         },
     }
 })

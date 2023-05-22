@@ -5,18 +5,7 @@ import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsModalVisible } from '../../redux/modalSlice'
 
-const Modal = () => {
-
-    const dispatch = useDispatch()
-
-    const modalContent = useSelector(store => store.modalSlice.modalContent)
-    const isSubmitDisabled = useSelector(store => store.modalSlice.isSubmitDisabled)
-    const modalTitle = useSelector(store => store.modalSlice.title)
-    const onSubmit = useSelector(store => store.modalSlice.onSubmit)
-
-    const closeButton = () => {
-        dispatch(setIsModalVisible(false))
-    }
+const Modal = ({modalContent, isSubmitDisabled, modalTitle, onSubmit, onCloseModal}) => {
 
     return (
         <div className={styles.modalWrapper}>
@@ -30,7 +19,7 @@ const Modal = () => {
             </div>
             <div className={styles.footer}>
                 <div className={styles.buttonWrapper}>
-                    <CommonButton text="CANCEL" onClick={closeButton}/>
+                    <CommonButton text="CANCEL" onClick={onCloseModal}/>
                 </div>
                 <div className={styles.buttonWrapper}>
                     <PrimaryButton text="CREATE" onClick={onSubmit} isDisabled={isSubmitDisabled}/>

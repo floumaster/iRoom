@@ -13,20 +13,9 @@ import { createUser, setUsers } from '../../redux/usersSlice'
 import { v4 as uuidv4 } from 'uuid';
 import Dropdown from 'react-dropdown'
 import DropdownWithCheckBoxes from '../DropDownWithCheckBoxes/DropDownWithCheckBoxes'
-
-
-const userCreateForm = (handleChangeName, handleChangeSurname, handleChangeEmail, teams, onTeamSelect) => {
-    return () => {
-        return (
-            <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeName} placeholder='Name'/>
-                <input className={styles.input} onChange={handleChangeSurname} placeholder='Surname'/>
-                <input className={styles.input} onChange={handleChangeEmail} placeholder='Email'/>
-                <Dropdown options={teams} onChange={onTeamSelect}/>
-            </div>
-        )
-    }
-}
+import Modal from '../Modal/Modal'
+import Edit from '../../assets/icons/edit.svg'
+import Delete from '../../assets/icons/delete.svg'
 
 const AdminUsersEditor = ({ }) => {
 
@@ -34,6 +23,8 @@ const AdminUsersEditor = ({ }) => {
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
     const [teamId, setTeamId] = useState('')
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
 
     const onTeamSelect = (team) => {
         const teamName = team.value
@@ -54,29 +45,30 @@ const AdminUsersEditor = ({ }) => {
 
     const dispatch = useDispatch()
 
-    const userCreate = (name, surname, email, teamId) => {
-        return () => {
-            dispatch(createUser(
-                {
-                    id: uuidv4(),
-                    name,
-                    surname,
-                    email,
-                    businessUnitId: teamId
-                }
-            ))
-            setName('')
-            setSurname('')
-            setEmail('')
-            setTeamId('')
-            dispatch(setIsModalVisible(false))
-        }
+    const closeUserCreateModal = () => {
+        setIsModalVisible(false)
+        setName('')
+        setSurname('')
+        setEmail('')
+        setTeamId('')
+    } 
+
+    const userCreate = () => {
+        dispatch(createUser(
+            {
+                id: uuidv4(),
+                name,
+                surname,
+                email,
+                businessUnitId: teamId
+            }
+        ))
+        closeUserCreateModal()
     }
 
     useEffect(() => {
         if(name.length && surname.length && email.length && teamId){
-            dispatch(setIsSubmitDisabled(false))
-            dispatch(setOnSubmitFunk(userCreate(name, surname, email, teamId)))
+            setIsSubmitDisabled(false)
         }
     }, [name, surname, email, teamId])
     
@@ -88,15 +80,8 @@ const AdminUsersEditor = ({ }) => {
         return businessUnits.find(team => team.id === user.businessUnitId)?.name
     }
 
-    const setModalInfo = () => {
-        dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(userCreateForm(handleChangeName, handleChangeSurname, handleChangeEmail, processedBusinessUnits, onTeamSelect)))
-        dispatch(setModalTitle('Create user'))
-        dispatch(setIsModalVisible(true))
-    }
-
     const openUserCreateModal = () => {
-        setModalInfo()
+        setIsModalVisible(true)
     }
 
     const processCsvUsers = (file) => {
@@ -154,6 +139,17 @@ const AdminUsersEditor = ({ }) => {
         }
     }, [file])
 
+    const userCreateForm = () => {
+        return (
+            <div className={styles.formWrapper}>
+                <input className={styles.input} onChange={handleChangeName} placeholder='Name'/>
+                <input className={styles.input} onChange={handleChangeSurname} placeholder='Surname'/>
+                <input className={styles.input} onChange={handleChangeEmail} placeholder='Email'/>
+                <Dropdown options={processedBusinessUnits} onChange={onTeamSelect}/>
+            </div>
+        )
+    }
+
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.buttonWrapper}>
@@ -179,6 +175,8 @@ const AdminUsersEditor = ({ }) => {
                     <div className={styles.colWrapper}>
                         <p className={styles.colTitle}>Business unit</p>
                     </div>
+                    <div className={styles.colWrapperExtra}>
+                    </div>
                 </div>
                 {
                     users.map(user => {
@@ -197,11 +195,23 @@ const AdminUsersEditor = ({ }) => {
                                 <div className={styles.colWrapper}>
                                     <p className={styles.colTitle}>{teamName}</p>
                                 </div>
+                                <div className={styles.colWrapperExtra}>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                </div>
                             </div>
                         )
                     })
                 }
             </div>
+            {isModalVisible &&
+            <Modal
+                modalContent={userCreateForm}
+                modalTitle="Create user"
+                onCloseModal={closeUserCreateModal}
+                isSubmitDisabled={isSubmitDisabled}
+                onSubmit={userCreate}
+            />}
         </div>
     )
 }

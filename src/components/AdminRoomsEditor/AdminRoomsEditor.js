@@ -4,27 +4,18 @@ import { useSelector } from 'react-redux'
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton'
 import CommonButton from '../buttons/CommonButton/CommonButton'
 import { useDispatch } from 'react-redux'
-import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFunk, setModalTitle } from '../../redux/modalSlice'
 import { createRoom } from '../../redux/roomsSlice'
 import { addRoomToFloor } from '../../redux/floorsSlice'
 import { v4 as uuidv4 } from 'uuid';
-import Dropdown from 'react-dropdown'
 import DropdownWithCheckBoxes from '../DropDownWithCheckBoxes/DropDownWithCheckBoxes'
-
-const roomCreateForm = (handleChangeTitle, handleChangeCapacity, assets, onAssetsSelect) => {
-    return () => {
-        return (
-            <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeTitle} placeholder='Title'/>
-                <input className={styles.input} onChange={handleChangeCapacity} placeholder='Capacity' type='number' min={1}/>
-                <DropdownWithCheckBoxes items={assets} itemName="assets" onChange={onAssetsSelect} />
-            </div>
-        )
-    }
-}
+import Modal from '../Modal/Modal'
+import Edit from '../../assets/icons/edit.svg'
+import Delete from '../../assets/icons/delete.svg'
 
 const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
-
+    
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
     const [title, setTitle] = useState('')
     const [capacity, setCapacity] = useState(0)
     const [selectedAssetId, setSelectedAssetId] = useState('')
@@ -41,34 +32,29 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
         setCapacity(e.target.value)
     }
 
-    const roomCreate = (title, capacity, selectedAssetId) => {
-        return () => {
-            const newRoomId = uuidv4()
-            dispatch(createRoom(
-                {
-                    id: newRoomId,
-                    name: title,
-                    capacity: capacity,
-                    assetsIds: selectedAssetId,
-                    bookingsIds: [],
-                    floorId: floorId
-                }
-            ))
-            dispatch(addRoomToFloor({
-                floorId,
-                roomId: newRoomId
-            }))
-            setTitle('')
-            setCapacity(0)
-            setSelectedAssetId([])
-            dispatch(setIsModalVisible(false))
-        }
+    const roomCreate = () => {
+        const newRoomId = uuidv4()
+        dispatch(createRoom(
+            {
+                id: newRoomId,
+                name: title,
+                capacity: capacity,
+                assetsIds: selectedAssetId,
+                bookingsIds: [],
+                floorId: floorId
+            }
+        ))
+        dispatch(addRoomToFloor({
+            floorId,
+            roomId: newRoomId
+        }))
+        setIsModalVisible(false)
     }
+
 
     useEffect(() => {
         if(title.length && capacity){
-            dispatch(setIsSubmitDisabled(false))
-            dispatch(setOnSubmitFunk(roomCreate(title, capacity, selectedAssetId)))
+            setIsSubmitDisabled(false)
         }
     }, [title, capacity, selectedAssetId])
 
@@ -77,30 +63,35 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
     const selectedFloor = useSelector(store => store.floorsSlice.floors).find(floor => floor.id === floorId)
     const rooms = useSelector(store => store.roomsSlice.rooms).filter(room => selectedFloor.roomsIds.includes(room.id))
     const assets = useSelector(store => store.assetsSlice.assets)
-    const formatedAssets = assets.map(asset => asset.name)
-    
-    useEffect(() => {
-        setContentTitle(`Floor ${selectedFloor.name}`)
-    }, [selectedFloor])
 
     const getAssetsByRoom = (room) => {
         return assets.filter(asset => room.assetsIds.includes(asset.id))
     }
 
-    const setModalInfo = () => {
-        dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(roomCreateForm(handleChangeTitle, handleChangeCapacity, assets, onAssetsSelect)))
-        dispatch(setModalTitle('Create room'))
-        dispatch(setIsModalVisible(true))
-    }
-
     const openFloorCreateModal = () => {
-        setModalInfo()
+        setContentTitle(`Floor ${selectedFloor.name}`)
+        setCapacity(0)
+        setSelectedAssetId([])
+        setIsModalVisible(true)
     }
 
     const goBack = () => {
         setContentTitle(`Floors`)
         unselectFloor()
+    }
+
+    const onCloseModal = () => {
+        setIsModalVisible(false)
+    }
+
+    const roomCreateForm = () => {
+        return (
+            <div className={styles.formWrapper}>
+                <input className={styles.input} onChange={handleChangeTitle} placeholder='Title'/>
+                <input className={styles.input} onChange={handleChangeCapacity} placeholder='Capacity' type='number' min={1}/>
+                <DropdownWithCheckBoxes items={assets} itemName="assets" onChange={onAssetsSelect} />
+            </div>
+        )
     }
 
     return (
@@ -121,6 +112,9 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
                     </div>
                     <div className={styles.colAssetsWrapper}>
                         <p className={styles.colTitle}>Assets</p>
+                    </div>
+                    <div className={styles.colWrapperLast}>
+                        
                     </div>
                 </div>
                 {
@@ -143,11 +137,23 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
                                         })
                                     }
                                 </div>
+                                <div className={styles.colWrapperLast}>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                </div>
                             </div>
                         )
                     })
                 }
             </div>
+            {isModalVisible &&
+                <Modal
+                    modalContent={roomCreateForm}
+                    modalTitle="Create room"
+                    onCloseModal={onCloseModal}
+                    isSubmitDisabled={isSubmitDisabled}
+                    onSubmit={roomCreate}
+                />}
         </div>
     )
 }

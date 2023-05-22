@@ -68,14 +68,11 @@ function App() {
     dispatch(getUsers())
   }, [])
 
-  const isModalVisible = useSelector(store => store.modalSlice.isModalVisible)
-
   return (
     <div className={styles.App}>
-      <main className={isModalVisible ? `${styles.mainWrapper} ${styles.inactive}` : styles.mainWrapper} >
+      <main className={styles.mainWrapper} >
         <RouterProvider router={router} />
       </main>
-      {isModalVisible && <Modal />}
     </div>
   );
 }

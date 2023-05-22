@@ -3,69 +3,63 @@ import styles from './styles.module.css'
 import { useSelector } from 'react-redux'
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton'
 import { useDispatch } from 'react-redux'
-import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFunk, setModalTitle } from '../../redux/modalSlice'
 import { createPurpose } from '../../redux/purposesSlice'
 import { v4 as uuidv4 } from 'uuid';
-
-const purposeCreateForm = (handleChangeValue) => {
-    return () => {
-        return (
-            <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeValue} placeholder='Purpose'/>
-            </div>
-        )
-    }
-}
+import Modal from '../Modal/Modal'
+import Edit from '../../assets/icons/edit.svg'
+import Delete from '../../assets/icons/delete.svg'
 
 const AdminPurposesEditor = () => {
 
     const [title, setTitle] = useState('')
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
 
     const handleChangeValue = (e) =>{
         if(e.target.value.length === 0){
-            dispatch(setIsSubmitDisabled(true))
+            setIsSubmitDisabled(true)
         }
         else{
-            dispatch(setIsSubmitDisabled(false))
+            setIsSubmitDisabled(false)
         }
         setTitle(e.target.value)
     }
 
-    const assetCreate = (title) => {
-        return () => {
-            dispatch(createPurpose(
-                {
-                    id: uuidv4(),
-                    value: title
-                }
-            ))
-            dispatch(setIsModalVisible(false))
-        }
+    const purposeCreate = () => {
+        dispatch(createPurpose(
+            {
+                id: uuidv4(),
+                value: title
+            }
+        ))
+        setIsModalVisible(false)
     }
-
-    useEffect(() => {
-        dispatch(setOnSubmitFunk(assetCreate(title)))
-    }, [title])
 
     const dispatch = useDispatch()
     
     const purposes = useSelector(store => store.purposesSlice.purposes)
-    
-    const setModalInfo = () => {
-        dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(purposeCreateForm(handleChangeValue)))
-        dispatch(setModalTitle('Create purpose'))
-        dispatch(setIsModalVisible(true))
+
+    const openPurposeCreateModal = () => {
+        setIsModalVisible(true)
     }
 
-    const openFloorCreateModal = () => {
-        setModalInfo()
+    const closePurposeCreateModal = () => {
+        setIsModalVisible(false)
+        setTitle(false)
+    } 
+
+    const purposeCreateForm = () => {
+        return (
+            <div className={styles.formWrapper}>
+                <input className={styles.input} onChange={handleChangeValue} value={title} placeholder='Purpose'/>
+            </div>
+        )
     }
 
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.buttonWrapper}>
-                <PrimaryButton text="+ ASSET" onClick={openFloorCreateModal}/>
+                <PrimaryButton text="+ ASSET" onClick={openPurposeCreateModal}/>
             </div>
             <div className={styles.floorsWrapper}>
                 {
@@ -73,11 +67,23 @@ const AdminPurposesEditor = () => {
                         return (
                             <div className={styles.floorWrapper}>
                                 <p className={styles.floorTitle}>{floor.value}</p>
+                                <div className={styles.iconWrapper}>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                </div>
                             </div>
                         )
                     })
                 }
             </div>
+            {isModalVisible &&
+            <Modal
+                modalContent={purposeCreateForm}
+                modalTitle="Create purpose"
+                onCloseModal={closePurposeCreateModal}
+                isSubmitDisabled={isSubmitDisabled}
+                onSubmit={purposeCreate}
+            />}
         </div>
     )
 }

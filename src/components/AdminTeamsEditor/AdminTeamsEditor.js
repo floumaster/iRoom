@@ -7,29 +7,23 @@ import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFun
 import { createAsset } from '../../redux/assetsSlice'
 import { v4 as uuidv4 } from 'uuid';
 import { addTeam } from '../../redux/teamsSlice'
-
-const businessUnitCreateForm = (handleChangeValue, handleChangeColor) => {
-    return () => {
-        return (
-            <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeValue} placeholder='Title'/>
-                <input className={styles.input} onChange={handleChangeColor} type="color" />
-            </div>
-        )
-    }
-}
+import Modal from '../Modal/Modal'
+import Edit from '../../assets/icons/edit.svg'
+import Delete from '../../assets/icons/delete.svg'
 
 const AdminTeamsEditor = () => {
 
     const [title, setTitle] = useState('')
     const [color, setColor] = useState('')
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
 
     const handleChangeValue = (e) =>{
         if(e.target.value.length === 0){
-            dispatch(setIsSubmitDisabled(true))
+            setIsSubmitDisabled(true)
         }
         else{
-            dispatch(setIsSubmitDisabled(false))
+            setIsSubmitDisabled(false)
         }
         setTitle(e.target.value)
     }
@@ -38,36 +32,38 @@ const AdminTeamsEditor = () => {
         setColor(e.target.value)
     }
 
-    const teamCreate = (title, color) => {
-        return () => {
-            dispatch(addTeam(
-                {
-                    id: uuidv4(),
-                    name: title,
-                    color
-                },
-            ))
-            dispatch(setIsModalVisible(false))
-        }
+    const teamCreate = () => {
+        dispatch(addTeam(
+            {
+                id: uuidv4(),
+                name: title,
+                color
+            },
+        ))
+        closeFloorCreateModal()
     }
-
-    useEffect(() => {
-        dispatch(setOnSubmitFunk(teamCreate(title, color)))
-    }, [title, color])
 
     const dispatch = useDispatch()
     
     const teams = useSelector(store => store.teamsSlice.teams)
-    
-    const setModalInfo = () => {
-        dispatch(setIsSubmitDisabled(true))
-        dispatch(setModalContent(businessUnitCreateForm(handleChangeValue, handleChangeColor)))
-        dispatch(setModalTitle('Create business unit'))
-        dispatch(setIsModalVisible(true))
-    }
 
     const openFloorCreateModal = () => {
-        setModalInfo()
+        setIsModalVisible(true)
+    }
+
+    const closeFloorCreateModal = () => {
+        setIsModalVisible(false)
+        setTitle('')
+        setColor('')
+    }
+
+    const businessUnitCreateForm = () => {
+        return (
+            <div className={styles.formWrapper}>
+                <input className={styles.input} onChange={handleChangeValue} placeholder='Title'/>
+                <input className={styles.input} onChange={handleChangeColor} type="color" />
+            </div>
+        )
     }
 
     return (
@@ -81,11 +77,23 @@ const AdminTeamsEditor = () => {
                         return (
                             <div className={styles.floorWrapper}>
                                 <p className={styles.floorTitle}>{team.name}</p>
+                                <div className={styles.iconWrapper}>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                </div>
                             </div>
                         )
                     })
                 }
             </div>
+            {isModalVisible &&
+            <Modal
+                modalContent={businessUnitCreateForm}
+                modalTitle="Create business unit"
+                onCloseModal={closeFloorCreateModal}
+                isSubmitDisabled={isSubmitDisabled}
+                onSubmit={teamCreate}
+            />}
         </div>
     )
 }
