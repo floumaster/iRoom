@@ -131,7 +131,7 @@ export const getAllAvailableEndTimes = (times, bookings, currentDate, selectedSt
             hoursWithMinutes.push(`${hour}:${minute}`)
         })
     })
-    console.log(times)
+    const filteredBookings = bookings.filter(booking => booking.dates.includes(currentDate.format('YYYY-MM-DD')))
     const prefixDate = currentDate.format('YYYY-MM-DDT')
     const endTimes = []
     const lastHour = parseInt(hoursWithMinutes[hoursWithMinutes.length - 1]?.split(':')?.[0])
@@ -142,7 +142,7 @@ export const getAllAvailableEndTimes = (times, bookings, currentDate, selectedSt
         const processedDate = `${prefixDate}${processedTime}`
         const processedStartDate = `${prefixDate}${processedStartTime}`
         if(moment(processedDate) > moment(processedStartDate)){
-            const isTimeAvailable = bookings.filter(booking => {
+            const isTimeAvailable = filteredBookings.filter(booking => {
                 const dateStart = moment(`${prefixDate}${booking.timeStart}`)
                 return dateStart > moment(processedStartDate) && booking.id !== currentBooking?.id
             }).every(booking => {

@@ -11,6 +11,24 @@ export const getBookings = createAsyncThunk('getBookings', async function() {
     return parsedResponse
 })
 
+export const deleteBooking = createAsyncThunk('deleteBooking', async function(data) {
+    await fetch(`http://localhost:3000/booking/deleteBooking`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const response = await fetch(`http://localhost:3000/booking`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    const parsedResponse = await response.json()
+    return parsedResponse
+})
+
 export const addBooking = createAsyncThunk('addBooking', async function(data) {
     const response = await fetch(`http://localhost:3000/booking/addBooking`, {
         method: "POST",
@@ -54,7 +72,10 @@ const bookingsSlice = createSlice({
                 else
                     return booking
             })
-        }
+        },
+        [deleteBooking.fulfilled]: (state, action) => {
+            state.bookings = action.payload
+        },
     }
 })
 

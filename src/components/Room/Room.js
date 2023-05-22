@@ -6,6 +6,7 @@ import WeekTimeUnit from "../TimeUnits/WeekTimeUnit/WeekTimeUnit";
 import MonthTimeUnit from "../TimeUnits/MonthTimeUnit/MonthTimeUnit";
 import { getNextMonthWeeks, getNextWeekDays } from '../../utils/timeProcessing'
 import moment from "moment";
+import MeetingInfoPopup from '../Modal/MeetingInfoPopup/MeetingInfoPopup'
 
 const Room = ({ room, floor }) => {
 
@@ -13,6 +14,7 @@ const Room = ({ room, floor }) => {
     const times = useSelector(store => store.timesSlice.times)
     const bookings = useSelector(store => store.bookingsSlice.bookings)
     const currentPeriod = useSelector(store => store.periodSlice.period)
+    const isBookingModalVisible = useSelector(store => store.meetingModalSlice.isModalVisible)
     const currentDate = useSelector(store => store.dateSlice.date)
     const [monthTimeAvailability, setMonthTimeAvailability] = useState([])
     const [weekTimeAvailability, setWeekTimeAvailability] = useState([])
@@ -127,6 +129,7 @@ const Room = ({ room, floor }) => {
                         ) : <MonthTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor} />
                     })
                 }
+                {isBookingModalVisible && <MeetingInfoPopup/>}
             </div>
         </div>
     )

@@ -20,6 +20,7 @@ const minutes = ['00', 15, 30, 45]
 const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime, setSelectedEndTime, isEditMode, formTitle }) => {
 
     const times = useSelector(store => store.timesSlice.times).map(time => time.time)
+    const currenUser = useSelector(store => store.usersSlice.currentUser)
     const originTeams = useSelector(store => store.teamsSlice.teams)
     const teams = originTeams.map(team => team.name)
     const originPurposes = useSelector(store => store.purposesSlice.purposes)
@@ -111,7 +112,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
     const generateDatesByGap = (daysGap, recurringEndDate) => {
         const dates = []
         let processedDate = currentDate
-        while(moment(processedDate) < moment(recurringEndDate)){
+        while(moment(processedDate) <= moment(recurringEndDate)){
             dates.push(processedDate.format('YYYY-MM-DD'))
             processedDate = moment(processedDate).add(daysGap, 'days')
         }
@@ -121,7 +122,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
     const getDatesByRecurrency = () => {
         switch(selectedRecurring){
             case 'No recurring':
-                return generateDatesByGap(0, currentDate)
+                return generateDatesByGap(1, currentDate)
             case 'Once a day':
                 return generateDatesByGap(1, recurringEndDate)
             case 'Once a week':
@@ -145,7 +146,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 teamId: getTeamIdByName(selectedTeam),
                 purposeId: getPuproseIdByName(purpose),
                 dates: getDatesByRecurrency(),
-                userId: null,
+                userId: currenUser.id,
                 roomId: room.id,
                 description: description
             }
@@ -161,7 +162,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 teamId: getTeamIdByName(selectedTeam),
                 purposeId: getPuproseIdByName(purpose),
                 dates: getDatesByRecurrency(),
-                userId: null,
+                userId: currenUser.id,
                 roomId: room.id,
                 description: description
             }

@@ -24,8 +24,6 @@ import { getUsers } from "./redux/usersSlice";
 import Register from "./components/pages/Register/Register";
 import { useEffect } from "react";
 import Login from "./components/pages/Login/Login";
-import MeetingInfoPopup from "./components/Modal/MeetingInfoPopup/MeetingInfoPopup";
-import { setIsModalVisible } from "./redux/meetingModalSlice";
 
 const router = createBrowserRouter([
   {
@@ -71,20 +69,13 @@ function App() {
   }, [])
 
   const isModalVisible = useSelector(store => store.modalSlice.isModalVisible)
-  const isBookingModalVisible = useSelector(store => store.meetingModalSlice.isModalVisible)
-
-  const onContentClick = () => {
-    if(isBookingModalVisible)
-      dispatch(setIsModalVisible(false))
-  }
 
   return (
     <div className={styles.App}>
-      <main className={isModalVisible || isBookingModalVisible ? `${styles.mainWrapper} ${styles.inactive}` : styles.mainWrapper} onClick={onContentClick}>
+      <main className={isModalVisible ? `${styles.mainWrapper} ${styles.inactive}` : styles.mainWrapper} >
         <RouterProvider router={router} />
       </main>
       {isModalVisible && <Modal />}
-      {isBookingModalVisible && <MeetingInfoPopup />}
     </div>
   );
 }
