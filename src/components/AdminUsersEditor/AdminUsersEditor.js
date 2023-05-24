@@ -16,20 +16,35 @@ import DropdownWithCheckBoxes from '../DropDownWithCheckBoxes/DropDownWithCheckB
 import Modal from '../Modal/Modal'
 import Edit from '../../assets/icons/edit.svg'
 import Delete from '../../assets/icons/delete.svg'
+import { editUser } from '../../redux/usersSlice'
+import WarningPopup from '../Modal/WarningPopup/WarningPopup'
+import { deleteUser } from '../../redux/usersSlice'
 
 const AdminUsersEditor = ({ }) => {
 
+    const [chosenId, setChosenId] = useState('')
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
     const [teamId, setTeamId] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+    const [isModalCreateMode, setIsModalCreateMode] = useState(true)
+    const [isWarningVisible, setIsWarningVisible] = useState(false)
+
+    const businessUnits = useSelector(store => store.teamsSlice.teams)
+    const processedBusinessUnits = businessUnits.map(team => team.name)
 
     const onTeamSelect = (team) => {
         const teamName = team.value
         setTeamId(businessUnits.find(team => team.name === teamName).id)
     }
+
+    const getTeamById = (teamId) => {
+        return businessUnits.find(team => team.id === teamId)?.name || ''
+    }
+
+    const selectedTeam = getTeamById(teamId)
 
     const handleChangeName = (e) =>{
         setName(e.target.value)
@@ -51,7 +66,20 @@ const AdminUsersEditor = ({ }) => {
         setSurname('')
         setEmail('')
         setTeamId('')
-    } 
+    }
+
+    const userEdit = () => {
+        dispatch(editUser(
+            {
+                id: chosenId,
+                name,
+                surname,
+                email,
+                businessUnitId: teamId
+            }
+        ))
+        closeUserCreateModal()
+    }
 
     const userCreate = () => {
         dispatch(createUser(
@@ -73,15 +101,24 @@ const AdminUsersEditor = ({ }) => {
     }, [name, surname, email, teamId])
     
     const users = useSelector(store => store.usersSlice.users)
-    const businessUnits = useSelector(store => store.teamsSlice.teams)
-    const processedBusinessUnits = businessUnits.map(team => team.name)
 
     const getBusinessUnitByUser = (user) => {
         return businessUnits.find(team => team.id === user.businessUnitId)?.name
     }
 
     const openUserCreateModal = () => {
+        setIsModalCreateMode(true)
         setIsModalVisible(true)
+    }
+
+    const handleOpenWarning = (e, user) => {
+        setChosenId(user.id)
+        e.stopPropagation()
+        setIsWarningVisible(true)
+    }
+
+    const handleCloseWarning = () => {
+        setIsWarningVisible(false)
     }
 
     const processCsvUsers = (file) => {
@@ -139,15 +176,34 @@ const AdminUsersEditor = ({ }) => {
         }
     }, [file])
 
+    useEffect(() => {
+        console.log(name)
+    }, [name])
+
     const userCreateForm = () => {
         return (
             <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeName} placeholder='Name'/>
-                <input className={styles.input} onChange={handleChangeSurname} placeholder='Surname'/>
-                <input className={styles.input} onChange={handleChangeEmail} placeholder='Email'/>
-                <Dropdown options={processedBusinessUnits} onChange={onTeamSelect}/>
+                <input className={styles.input} onChange={handleChangeName} placeholder='Name' value={name}/>
+                <input className={styles.input} onChange={handleChangeSurname} placeholder='Surname' value={surname}/>
+                <input className={styles.input} onChange={handleChangeEmail} placeholder='Email' value={email}/>
+                <Dropdown options={processedBusinessUnits} onChange={onTeamSelect} value={selectedTeam}/>
             </div>
         )
+    }
+
+    const handleOpenEditForm = (e, user) => {
+        setChosenId(user.id)
+        setName(user.name)
+        setSurname(user.surname)
+        setEmail(user.email)
+        setTeamId(user.teamId)
+        setIsModalCreateMode(false)
+        setIsModalVisible(true)
+        e.stopPropagation()
+    }
+
+    const submitDelete = () => {
+        dispatch(deleteUser(chosenId))
     }
 
     return (
@@ -196,8 +252,8 @@ const AdminUsersEditor = ({ }) => {
                                     <p className={styles.colTitle}>{teamName}</p>
                                 </div>
                                 <div className={styles.colWrapperExtra}>
-                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
-                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={(e) => handleOpenEditForm(e, user)}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={(e) => handleOpenWarning(e, user)}/>
                                 </div>
                             </div>
                         )
@@ -206,12 +262,20 @@ const AdminUsersEditor = ({ }) => {
             </div>
             {isModalVisible &&
             <Modal
+                isCreateMode={isModalCreateMode}
                 modalContent={userCreateForm}
-                modalTitle="Create user"
+                modalTitle={isModalCreateMode ? "Create user" : "Edit user"}
                 onCloseModal={closeUserCreateModal}
                 isSubmitDisabled={isSubmitDisabled}
-                onSubmit={userCreate}
+                onSubmit={isModalCreateMode ? userCreate : userEdit}
             />}
+            {isWarningVisible &&
+                <WarningPopup
+                    title="Delete user"
+                    text="Delete selected user? This action can’t be undone"
+                    handleClosePopup={handleCloseWarning}
+                    onSubmit={submitDelete}
+                />}
         </div>
     )
 }

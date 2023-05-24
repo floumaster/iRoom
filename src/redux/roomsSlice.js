@@ -11,6 +11,34 @@ export const getRooms = createAsyncThunk('getRooms', async function() {
     return parsedResponse
 })
 
+export const deleteRoom = createAsyncThunk('deleteRoom', async function(id) {
+    const response = await fetch(`http://localhost:3000/room/deleteRoom`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id})
+    })
+    const parsedResponse = await response.json()
+    return id
+})
+
+export const editRoom = createAsyncThunk('editRoom', async function(data) {
+    const processedData = {
+        room: data,
+        assetsIds: data.assetsIds
+    }
+    const response = await fetch(`http://localhost:3000/room/editRoom`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(processedData)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
+
 export const createRoom = createAsyncThunk('createRoom', async function(data) {
     const processedData = {
         room: data,
@@ -49,6 +77,17 @@ const roomsSlice = createSlice({
         },
         [createRoom.fulfilled]: (state, action) => {
             state.rooms.push(action.payload)
+        },
+        [deleteRoom.fulfilled]: (state, action) => {
+            state.rooms = state.rooms.filter(room => room.id !== action.payload)
+        },
+        [editRoom.fulfilled]: (state, action) => {
+            state.rooms = state.rooms.map(room => {
+                if(room.id === action.payload.id)
+                    return action.payload
+                else
+                    return room
+            })
         },
     }
 })

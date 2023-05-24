@@ -43,7 +43,6 @@ const Register = () => {
     }
 
     useEffect(() => {
-        console.log(user)
         if(user?.id)
             navigateToHome()
     }, [user])

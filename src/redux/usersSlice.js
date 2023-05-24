@@ -35,6 +35,31 @@ export const getUsers = createAsyncThunk('getUsers', async function() {
     return parsedResponse
 })
 
+export const deleteUser = createAsyncThunk('deleteUser', async function(id) {
+    const response = await fetch(`http://localhost:3000/user/deleteUser`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id})
+    })
+    const parsedResponse = await response.json()
+    return id
+})
+
+export const editUser = createAsyncThunk('editUser', async function(data) {
+    console.log(data)
+    const response = await fetch(`http://localhost:3000/user/editUser`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
+
 export const createUser = createAsyncThunk('createUser', async function(data) {
     const response = await fetch(`http://localhost:3000/user/addUsers`, {
         method: "POST",
@@ -71,6 +96,17 @@ const usersSlice = createSlice({
         },
         [createUser.fulfilled]: (state, action) => {
             state.users.push(action.payload)
+        },
+        [editUser.fulfilled]: (state, action) => {
+            state.users = state.users.map(user => {
+                if(user.id === action.payload.id)
+                    return action.payload
+                else
+                    return user
+            })
+        },
+        [deleteUser.fulfilled]: (state, action) => {
+            state.users = state.users.filter(user => user.id !== action.payload)
         },
         [login.fulfilled]: (state, action) => {
             const result = action.payload

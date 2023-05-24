@@ -10,13 +10,19 @@ import AdminRoomsEditor from '../AdminRoomsEditor/AdminRoomsEditor'
 import Modal from '../Modal/Modal'
 import Edit from '../../assets/icons/edit.svg'
 import Delete from '../../assets/icons/delete.svg'
+import { editFloor as  editFloorApiCall} from '../../redux/floorsSlice'
+import WarningPopup from '../Modal/WarningPopup/WarningPopup'
+import { deleteFloor } from '../../redux/floorsSlice'
 
 const AdminFloorsEditor = ({ setContentTitle }) => {
 
+    const [chosenId, setChosenId] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isWarningVisible, setIsWarningVisible] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
     const [title, setTitle] = useState('')
     const [selectedFloorId, setSelectedFloorId] = useState('')
+    const [isModalCreateMode, setIsModalCreateMode] = useState(true)
 
     const selectFloor = (id) => {
         setSelectedFloorId(id)
@@ -31,6 +37,16 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
                 name: title,
                 number: 3,
                 roomsIds: []
+            }
+        ))
+        setIsModalVisible(false)
+    }
+
+    const editFloor = () => {
+        dispatch(editFloorApiCall(
+            {
+                id: chosenId,
+                name: title,
             }
         ))
         setIsModalVisible(false)
@@ -59,6 +75,7 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
 
 
     const openFloorCreateModal = () => {
+        setIsModalCreateMode(true)
         setTitle('')
         setIsModalVisible(true)
     }
@@ -69,6 +86,28 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
 
     const unselectFloor = () => {
         setSelectedFloorId(null)
+    }
+
+    const handleOpenWarning = (e, floor) => {
+        e.stopPropagation()
+        setChosenId(floor.id)
+        setIsWarningVisible(true)
+    }
+
+    const submitDelete = () => {
+        dispatch(deleteFloor(chosenId))
+    }
+
+    const handleCloseWarning = () => {
+        setIsWarningVisible(false)
+    }
+
+    const handleOpenEditForm = (e, floor) => {
+        e.stopPropagation()
+        setChosenId(floor.id)
+        setIsModalCreateMode(false)
+        setTitle(floor.name)
+        setIsModalVisible(true)
     }
 
     return (
@@ -88,8 +127,8 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
                                     <div className={floor.id === selectedFloorId ? `${styles.floorWrapper} ${styles.selected}` : styles.floorWrapper} onClick={() => selectFloor(floor.id)}>
                                         <p className={styles.floorTitle}>Floor {floor.name}</p>
                                         <div className={styles.iconWrapper}>
-                                            <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
-                                            <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                            <img src={Edit} alt="edit" className={styles.icon} onClick={(e) => handleOpenEditForm(e, floor)}/>
+                                            <img src={Delete} alt="delete" className={styles.icon} onClick={(e) => handleOpenWarning(e, floor)}/>
                                         </div>
                                     </div>
                                 )
@@ -101,11 +140,19 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
         }
         {isModalVisible &&
         <Modal
+            isCreateMode={isModalCreateMode}
             modalContent={floorCreateForm}
-            modalTitle="Create floor"
+            modalTitle={isModalCreateMode ? "Create floor" : "Edit floor"}
             onCloseModal={onCloseModal}
             isSubmitDisabled={isSubmitDisabled}
-            onSubmit={floorCreate}
+            onSubmit={isModalCreateMode ? floorCreate : editFloor}
+        />}
+        {isWarningVisible &&
+        <WarningPopup
+            title="Delete floor"
+            text="Delete selected floor? This action can’t be undone"
+            handleClosePopup={handleCloseWarning}
+            onSubmit={submitDelete}
         />}
         </>
     )

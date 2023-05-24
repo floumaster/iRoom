@@ -7,7 +7,7 @@ import { setBookingContent, setIsModalVisible } from "../../../redux/meetingModa
 
 const minutes = ['00', 15, 30, 45]
 
-const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeting, hoveredMeeting }) => {
+const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeting, hoveredMeeting, handleOpenPopup }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -33,7 +33,7 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeti
             floor,
             time
         }))
-        dispatch(setIsModalVisible(true))
+        handleOpenPopup()
     }
 
     const onMeetingPartHover = (id) => {

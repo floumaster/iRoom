@@ -7,6 +7,7 @@ import MonthTimeUnit from "../TimeUnits/MonthTimeUnit/MonthTimeUnit";
 import { getNextMonthWeeks, getNextWeekDays } from '../../utils/timeProcessing'
 import moment from "moment";
 import MeetingInfoPopup from '../Modal/MeetingInfoPopup/MeetingInfoPopup'
+import WarningPopup from "../Modal/WarningPopup/WarningPopup";
 
 const Room = ({ room, floor }) => {
 
@@ -14,7 +15,8 @@ const Room = ({ room, floor }) => {
     const times = useSelector(store => store.timesSlice.times)
     const bookings = useSelector(store => store.bookingsSlice.bookings)
     const currentPeriod = useSelector(store => store.periodSlice.period)
-    const isBookingModalVisible = useSelector(store => store.meetingModalSlice.isModalVisible)
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isWarningVisible, setIsWarningVisible] = useState(false)
     const currentDate = useSelector(store => store.dateSlice.date)
     const [monthTimeAvailability, setMonthTimeAvailability] = useState([])
     const [weekTimeAvailability, setWeekTimeAvailability] = useState([])
@@ -35,7 +37,15 @@ const Room = ({ room, floor }) => {
 
     const getBookingsByRoom = (room) => {
         const bookingsIds = room.bookingsIds
-        return bookings.filter(booking => bookingsIds.includes(booking.id))
+        return bookings.filter(booking => bookingsIds?.includes(booking.id))
+    }
+
+    const handleClosePopup = () => {
+        setIsModalVisible(false)
+    }
+
+    const handleOpenPopup = () => {
+        setIsModalVisible(true)
     }
 
     const assetsInCurrentRoom = getAssetsByRoom(room)
@@ -123,13 +133,14 @@ const Room = ({ room, floor }) => {
                                 bookingsInCurrentRoom={bookingsInCurrentRoom}
                                 room={room}
                                 floor={floor}
+                                handleOpenPopup={handleOpenPopup}
                             />
                         ) : isWeekPeriod ? (
                             <WeekTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor}/>
                         ) : <MonthTimeUnit time={timesUnit} bookingsInCurrentRoom={bookingsInCurrentRoom} room={room} floor={floor} />
                     })
                 }
-                {isBookingModalVisible && <MeetingInfoPopup/>}
+                {isModalVisible && <MeetingInfoPopup handleClosePopup={handleClosePopup}/>}
             </div>
         </div>
     )

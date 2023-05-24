@@ -12,6 +12,30 @@ export const addFloor = createAsyncThunk('addFloor', async function(floor) {
     return floor
 })
 
+export const deleteFloor = createAsyncThunk('deleteFloor', async function(id) {
+    const response = await fetch(`http://localhost:3000/floor/deleteFloor`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id})
+    })
+    const parsedResponse = await response.json()
+    return id
+})
+
+export const editFloor = createAsyncThunk('editFloor', async function(floor) {
+    const response = await fetch(`http://localhost:3000/floor/editFloor`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(floor)
+    })
+    const parsedResponse = await response.json()
+    return floor
+})
+
 export const getFloors = createAsyncThunk('getFloors', async function() {
     const response = await fetch(`http://localhost:3000/floor`, {
         method: "GET",
@@ -45,6 +69,17 @@ const floorsSlice = createSlice({
         },
         [addFloor.fulfilled]: (state, action) => {
             state.floors.push(action.payload)
+        },
+        [deleteFloor.fulfilled]: (state, action) => {
+            state.floors = state.floors.filter(floor => floor.id !== action.payload)
+        },
+        [editFloor.fulfilled]: (state, action) => {
+            state.floors = state.floors.map(floor => {
+                if(floor.id === action.payload.id)
+                    return action.payload
+                else
+                    return floor
+            })
         },
     }
 })

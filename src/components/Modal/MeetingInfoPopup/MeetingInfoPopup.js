@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './styles.module.css'
 import PrimaryButton from "../../buttons/PrimaryButton/PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setIsModalVisible } from "../../../redux/meetingModalSlice";
 import { deleteBooking } from "../../../redux/bookingsSlice";
+import WarningPopup from "../WarningPopup/WarningPopup";
 
-const MeetingInfoPopup = () => {
+const MeetingInfoPopup = ({handleClosePopup}) => {
 
     const dispatch = useDispatch()
     const bookingInfo = useSelector(store => store.meetingModalSlice.bookingContent)
@@ -21,14 +22,21 @@ const MeetingInfoPopup = () => {
     const currentDate = useSelector(store => store.dateSlice.date)
     const navigate = useNavigate()
 
+    const [isWarningVisible, setIsWarningVisible] = useState(false)
+
     const isUserOwnerOfBooking = bookingInfo.userClicked?.id === bookingInfo.userId
 
     const navigateToBookingEdit = () => {
         navigate('/editBooking', { state: { bookingsInCurrentRoom: bookingInfo.bookingsInCurrentRoom, bookingNow: bookingInfo, room: currentRoom, floor: currentFloor, time: bookingInfo.time } })
     }
 
-    const handleClosePopup = () => {
-        dispatch(setIsModalVisible(false))
+    const handleCloseWarning = () => {
+        setIsWarningVisible(false)
+    }
+
+    const handleOpenWarning = (e) => {
+        e.stopPropagation()
+        setIsWarningVisible(true)
     }
 
     const handleBookingDelete = () => {
@@ -78,8 +86,8 @@ const MeetingInfoPopup = () => {
                         <div className={styles.buttonWrapper}>
                             <PrimaryButton text="EDIT" onClick={navigateToBookingEdit}/>
                         </div>
-                        <div className={styles.buttonWrapper}>
-                            <PrimaryButton text="DELETE" onClick={handleBookingDelete}/>
+                        <div className={styles.buttonWrapper} onClick={handleOpenWarning}>
+                            <PrimaryButton text="DELETE" />
                         </div>
                     </> : 
                         <div className={styles.buttonWrapper}>
@@ -87,6 +95,11 @@ const MeetingInfoPopup = () => {
                         </div>}
                 </div>
             </div>
+            {isWarningVisible && <WarningPopup
+                                    handleClosePopup={handleCloseWarning}
+                                    title="Are you sure you want to delete"
+                                    onSubmit={handleBookingDelete}
+                                />}
         </div>
     )
 }

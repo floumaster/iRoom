@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from './styles.module.css'
 
-const DropdownWithCheckBoxes = ({ items, itemName, onChange }) => {
+const DropdownWithCheckBoxes = ({ items, itemName, onChange, selectedIds }) => {
 
     const [title, setTitle] = useState(`Selected 0 ${itemName}`)
 
     const [isOpened, setIsOpened] = useState(false)
 
-    const [selectedItems, setSelectedItems] = useState([])
-    const [unselectedItem, setUnselectedItems] = useState(items)
+    const [selectedItems, setSelectedItems] = useState(selectedIds)
+    const [unselectedItem, setUnselectedItems] = useState(items.filter(item => !selectedIds.find(id => item.id === id)))
 
     useEffect(() => {
         setTitle(`Selected ${selectedItems.length} ${itemName}`)

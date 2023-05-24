@@ -10,13 +10,19 @@ import { addTeam } from '../../redux/teamsSlice'
 import Modal from '../Modal/Modal'
 import Edit from '../../assets/icons/edit.svg'
 import Delete from '../../assets/icons/delete.svg'
+import { editTeam } from '../../redux/teamsSlice'
+import WarningPopup from '../Modal/WarningPopup/WarningPopup'
+import { deleteTeam } from '../../redux/teamsSlice'
 
 const AdminTeamsEditor = () => {
 
+    const [chosenId, setChosenId] = useState('')
     const [title, setTitle] = useState('')
     const [color, setColor] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+    const [isModalCreateMode, setIsModalCreateMode] = useState(true)
+    const [isWarningVisible, setIsWarningVisible] = useState(false)
 
     const handleChangeValue = (e) =>{
         if(e.target.value.length === 0){
@@ -30,6 +36,17 @@ const AdminTeamsEditor = () => {
 
     const handleChangeColor = (e) =>{
         setColor(e.target.value)
+    }
+
+    const teamEdit = () => {
+        dispatch(editTeam(
+            {
+                id: chosenId,
+                name: title,
+                color
+            }
+        ))
+        closeFloorCreateModal()
     }
 
     const teamCreate = () => {
@@ -52,6 +69,7 @@ const AdminTeamsEditor = () => {
     }
 
     const closeFloorCreateModal = () => {
+        setIsModalCreateMode(true)
         setIsModalVisible(false)
         setTitle('')
         setColor('')
@@ -60,10 +78,33 @@ const AdminTeamsEditor = () => {
     const businessUnitCreateForm = () => {
         return (
             <div className={styles.formWrapper}>
-                <input className={styles.input} onChange={handleChangeValue} placeholder='Title'/>
-                <input className={styles.input} onChange={handleChangeColor} type="color" />
+                <input className={styles.input} onChange={handleChangeValue} placeholder='Title' value={title}/>
+                <input className={styles.input} onChange={handleChangeColor} type="color" value={color}/>
             </div>
         )
+    }
+
+    const handleOpenEditForm = (e, team) => {
+        setChosenId(team.id)
+        setIsModalCreateMode(false)
+        setIsModalVisible(true)
+        setTitle(team.name)
+        setColor(team.color)
+        e.stopPropagation()
+    }
+
+    const handleOpenWarning = (e, team) => {
+        setChosenId(team.id)
+        e.stopPropagation()
+        setIsWarningVisible(true)
+    }
+
+    const handleCloseWarning = () => {
+        setIsWarningVisible(false)
+    }
+
+    const submitDelete = () => {
+        dispatch(deleteTeam(chosenId))
     }
 
     return (
@@ -78,8 +119,8 @@ const AdminTeamsEditor = () => {
                             <div className={styles.floorWrapper}>
                                 <p className={styles.floorTitle}>{team.name}</p>
                                 <div className={styles.iconWrapper}>
-                                    <img src={Edit} alt="edit" className={styles.icon} onClick={() => {}}/>
-                                    <img src={Delete} alt="delete" className={styles.icon} onClick={() => {}}/>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={(e) => handleOpenEditForm(e, team)}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={(e) => handleOpenWarning(e, team)}/>
                                 </div>
                             </div>
                         )
@@ -88,12 +129,20 @@ const AdminTeamsEditor = () => {
             </div>
             {isModalVisible &&
             <Modal
+                isCreateMode={isModalCreateMode}
                 modalContent={businessUnitCreateForm}
-                modalTitle="Create business unit"
+                modalTitle={isModalCreateMode ? "Create business unit" : "Edit business unit"}
                 onCloseModal={closeFloorCreateModal}
                 isSubmitDisabled={isSubmitDisabled}
-                onSubmit={teamCreate}
+                onSubmit={isModalCreateMode ? teamCreate : teamEdit}
             />}
+            {isWarningVisible &&
+                <WarningPopup
+                    title="Delete business unit"
+                    text="Delete selected business unit? This action can’t be undone"
+                    handleClosePopup={handleCloseWarning}
+                    onSubmit={submitDelete}
+                />}
         </div>
     )
 }

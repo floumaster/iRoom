@@ -5,7 +5,7 @@
     z-index: 2;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.699)
+    background-color: rgba(0, 0, 0, 0)
 }
 
 .popupWrapper{
@@ -54,5 +54,5 @@
 }
 
 .buttonWrapper{
-    width: 200px;
+    width: 180px;
 }
