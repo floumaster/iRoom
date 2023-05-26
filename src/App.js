@@ -1,5 +1,6 @@
 import styles from "./styles.module.css"
 import HomePage from './components/pages/HomePage/HomePage';
+import MyBookings from "./components/pages/MyBookings/MyBookings";
 import CreateBooking from './components/pages/CreateBooking/CreateBooking';
 import EditBooking from "./components/pages/EditBooking/EditBooking";
 import { Provider, useDispatch } from 'react-redux';
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <><Header /><HomePage /></>
+  },
+  {
+    path: "/myBookings",
+    element: <><Header /><MyBookings /></>
   },
   {
     path: "/createBooking",

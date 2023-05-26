@@ -23,6 +23,10 @@ const Header = () => {
         navigate('/login')
     }
 
+    const navigateToMyBookings = () => {
+        navigate('/myBookings')
+    }
+
     const onAuthButtonClick = () => {
         if(user){
             dispatch(logout())
@@ -39,7 +43,7 @@ const Header = () => {
             <div className={styles.headerMenuLeft}>
                 <p className={styles.menuItem}>iRoom</p>
                 <p className={styles.menuItem} onClick={navigateToHome}>View availability</p>
-                <p className={styles.menuItem}>My bookings</p>
+                <p className={styles.menuItem} onClick={navigateToMyBookings}>My bookings</p>
                 {isAdmin && <p className={styles.menuItem} onClick={navigateToAdminPanel}>Admin panel</p>}
             </div>
             <div className={styles.headerMenuRight}>
