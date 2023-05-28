@@ -7,19 +7,24 @@
 
 .filter{
     width: 80%;
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(243, 243, 243);
     padding: 20px;
 }
 
 .filterTitle {
-    font-size: 25px;
+    font-size: 30px;
     margin: 0;
     font-weight: bold;
 }
 
+.filterCheckbox{
+    transform: scale(1.5);
+}
+
 .filterItemTitle{
     font-weight: bold;
-    font-size: 18px;
+    font-size: 22px;
+    margin-bottom: 5px;
 }
 
 .filterSubItemWrapper {

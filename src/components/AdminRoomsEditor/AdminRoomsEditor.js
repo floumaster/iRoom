@@ -166,7 +166,7 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
                     rooms.map(room => {
                         const assetsInRoom = getAssetsByRoom(room)
                         return (
-                            <div className={styles.colsTitle}>
+                            <div className={`${styles.colsTitle} ${styles.values}`}>
                                 <div className={styles.colWrapper}>
                                     <p className={styles.colTitle}>{room.name}</p>
                                 </div>

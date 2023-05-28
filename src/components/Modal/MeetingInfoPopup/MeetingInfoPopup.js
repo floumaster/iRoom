@@ -11,6 +11,7 @@ const MeetingInfoPopup = ({handleClosePopup}) => {
 
     const dispatch = useDispatch()
     const bookingInfo = useSelector(store => store.meetingModalSlice.bookingContent)
+    console.log(bookingInfo)
     const rooms = useSelector(store => store.roomsSlice.rooms)
     const floors = useSelector(store => store.floorsSlice.floors)
     const teams = useSelector(store => store.teamsSlice.teams)

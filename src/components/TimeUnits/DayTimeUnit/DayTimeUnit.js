@@ -25,6 +25,7 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeti
     }
 
     const onExistingBookingClick = (bookingNow) => {
+        console.log(bookingNow, currentUser)
         dispatch(setBookingContent({
             ...bookingNow,
             userClicked: currentUser,

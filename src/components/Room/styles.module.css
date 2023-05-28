@@ -10,7 +10,7 @@
 
 .infoCol {
     height: 100%;
-    border: 1px solid gray;
+    border: 1px solid rgb(209, 209, 209);
     display: flex;
     justify-content: center;
     align-items: center;

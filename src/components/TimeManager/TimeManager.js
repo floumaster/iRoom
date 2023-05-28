@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { editDate } from "../../redux/dateSlice";
 import moment from 'moment'
+import Arrow from '../../assets/icons/arrow.svg'
 
 const TimeManager = ({ title }) => {
     const dispatch = useDispatch()
@@ -47,6 +48,30 @@ const TimeManager = ({ title }) => {
                     inline
                     startDate={startDate}
                     endDate={endDate}
+                    calendarClassName={styles.calendar}
+                    dayClassName={() => styles.calendarDay}
+                    renderCustomHeader={({
+                        date,
+                        decreaseMonth,
+                        increaseMonth,
+                        prevMonthButtonDisabled,
+                        nextMonthButtonDisabled,
+                      }) => (
+                        <div className={styles.headerWrapper}>
+                          <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className={styles.navButton}>
+                            <img src={Arrow} alt="arrow" className={styles.arrowLeft} />
+                          </button>
+
+                          <div className={styles.monthWrapper}>
+                            {moment(date).format('MMMM')}
+                          </div>
+                
+                
+                          <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className={styles.navButton}>
+                            <img src={Arrow} alt="arrow" className={styles.arrowRight} />
+                          </button>
+                        </div>
+                      )}
                 />
             </div>
         </div>

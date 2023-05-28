@@ -98,7 +98,7 @@ const AdminPurposesEditor = () => {
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.buttonWrapper}>
-                <PrimaryButton text="+ ASSET" onClick={openPurposeCreateModal}/>
+                <PrimaryButton text="+ PURPOSE" onClick={openPurposeCreateModal}/>
             </div>
             <div className={styles.floorsWrapper}>
                 {

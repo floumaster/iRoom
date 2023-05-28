@@ -6,11 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton';
 import { setTimes } from '../../redux/timesSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 
 const AdminTimeEditor = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const getAllAvailableTimes = () => {
         const times = []
@@ -58,17 +60,18 @@ const AdminTimeEditor = () => {
             })
         }
         dispatch(setTimes(times))
+        navigate('/')
     }
 
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.dropDownsWrapper}>
                 <div className={styles.dropDownWrapper}>
-                    <p className={styles.dropDownTitle}>Time start</p>
+                    <p className={styles.dropDownTitle}>Start time</p>
                     <Dropdown options={availableStartTimes} value={timeStart} onChange={handleStartTimeChange} className={styles.dropDownWrapper}/>
                 </div>
                 <div className={styles.dropDownWrapper}>
-                    <p className={styles.dropDownTitle}>Time end</p>
+                    <p className={styles.dropDownTitle}>End time</p>
                     <Dropdown options={availableEndTimes} value={timeEnd} onChange={handleEndTimeChange} className={styles.dropDownWrapper}/>
                 </div>
             </div>

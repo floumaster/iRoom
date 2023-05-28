@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import { useSelector } from 'react-redux'
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton'
 import CommonButton from '../buttons/CommonButton/CommonButton'
 import CommonButtonWithExport from '../buttons/ButtonWithExport/CommonButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setModalContent, setIsModalVisible, setIsSubmitDisabled, setOnSubmitFunk, setModalTitle } from '../../redux/modalSlice'
 import { createRoom } from '../../redux/roomsSlice'
 import { addRoomToFloor } from '../../redux/floorsSlice'
@@ -31,6 +30,7 @@ const AdminUsersEditor = ({ }) => {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
     const [isModalCreateMode, setIsModalCreateMode] = useState(true)
     const [isWarningVisible, setIsWarningVisible] = useState(false)
+    const teams = useSelector(store => store.teamsSlice.teams)
 
     const businessUnits = useSelector(store => store.teamsSlice.teams)
     const processedBusinessUnits = businessUnits.map(team => team.name)
@@ -123,7 +123,8 @@ const AdminUsersEditor = ({ }) => {
 
     const processCsvUsers = (file) => {
         const rows = file.split('\r\n')
-        const users = []
+        const importedUsers = []
+        console.log(rows, teams)
         rows.forEach(row => {
             const splitedRow = row.split(';')
             if(splitedRow[0]){
@@ -132,12 +133,16 @@ const AdminUsersEditor = ({ }) => {
                     name: splitedRow[0],
                     surname: splitedRow[1],
                     email: splitedRow[2],
-                    businessUnitId: splitedRow[3]
-                }
-                users.push(user)
+                    businessUnitId: teams.find(team => team.name === splitedRow[3]).id,
+                    isAdmin: false
+                } 
+                importedUsers.push(user)
             }
         })
-        dispatch(setUsers(users))
+        const usersToAdd = importedUsers.filter(user => {
+            return !users.some(_user => _user.email === user.email)
+        })
+        dispatch(setUsers(usersToAdd))
     }
 
     const [file, setFile] = useState();
@@ -150,7 +155,8 @@ const AdminUsersEditor = ({ }) => {
 
     const createExportFileContent = () => {
         const formatUsers = users.map(user => {
-            return `${user.name};${user.surname};${user.email};${user.businessUnitId}`
+            const teamName = teams.find(team => team.id === user.businessUnitId)?.name
+            return `${user.name};${user.surname};${user.email};${teamName}`
         }).join('\r\n')
         return formatUsers
     }
@@ -175,10 +181,6 @@ const AdminUsersEditor = ({ }) => {
             handleUploadClick()
         }
     }, [file])
-
-    useEffect(() => {
-        console.log(name)
-    }, [name])
 
     const userCreateForm = () => {
         return (
@@ -212,7 +214,7 @@ const AdminUsersEditor = ({ }) => {
                 <PrimaryButton text="+ USER" onClick={openUserCreateModal}/>
             </div>
             <div className={styles.commonButtonWrapper}>
-                <CommonButtonWithInput text="Import" handleFileChange={handleFileChange}/>
+                <CommonButtonWithInput text="Import file" handleFileChange={handleFileChange}/>
             </div>
             <div className={styles.commonButtonWrapper2}>
                 <CommonButtonWithExport text="Export file" data={createExportFileContent()}/>
@@ -238,7 +240,7 @@ const AdminUsersEditor = ({ }) => {
                     users.map(user => {
                         const teamName = getBusinessUnitByUser(user)
                         return (
-                            <div className={styles.colsTitle}>
+                            <div className={`${styles.colsTitle} ${styles.values}`}>
                                 <div className={styles.colWrapper}>
                                     <p className={styles.colTitle}>{user.name}</p>
                                 </div>

@@ -8,7 +8,7 @@ import { setIsModalVisible } from '../../redux/modalSlice'
 const Modal = ({modalContent, isSubmitDisabled, modalTitle, onSubmit, onCloseModal, isCreateMode}) => {
 
     return (
-        <div className={styles.overlay} onClick={onCloseModal}>
+        <div className={styles.overlay} onClick={() => {}}>
             <div className={styles.modalWrapper}>
                 <div className={styles.modalHeader}>
                     <p className={styles.title}>{modalTitle}</p>

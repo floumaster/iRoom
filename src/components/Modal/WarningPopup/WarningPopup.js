@@ -15,10 +15,11 @@ const WarningPopup = ({handleClosePopup, title, text, onSubmit}) => {
     const floors = useSelector(store => store.floorsSlice.floors)
     const teams = useSelector(store => store.teamsSlice.teams)
     const users = useSelector(store => store.usersSlice.users)
-    const currentRoom = rooms.find(room => room.id === bookingInfo.roomId)
-    const currentFloor = floors.find(floor => floor.id === currentRoom.floorId)
-    const currentTeam = teams.find(team => team.id === bookingInfo.teamId)
-    const currentUser = users.find(user => user.id === bookingInfo.userId)
+    console.log(bookingInfo)
+    const currentRoom = rooms.find(room => room.id === bookingInfo?.roomId)
+    const currentFloor = floors.find(floor => floor.id === currentRoom?.floorId)
+    const currentTeam = teams.find(team => team.id === bookingInfo?.teamId)
+    const currentUser = users.find(user => user.id === bookingInfo?.userId)
 
     
     return (

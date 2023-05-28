@@ -17,8 +17,12 @@ const MyBookings = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.titleWrapper}>
-                <p className={isCreatedShown ? styles.title : `${styles.title} ${styles.hidden}`} onClick={chooseCreated}>Created</p>
-                <p className={!isCreatedShown ? styles.title : `${styles.title} ${styles.hidden}`} onClick={chooseInvited}>Invited</p>
+                <div className={isCreatedShown ? styles.titleContainer : `${styles.titleContainer} ${styles.underlined}`}>
+                    <p className={isCreatedShown ? styles.title : `${styles.title} ${styles.hidden}`} onClick={chooseCreated}>Created</p>
+                </div>
+                <div className={!isCreatedShown ? styles.titleContainer : `${styles.titleContainer} ${styles.underlined}`}>
+                    <p className={!isCreatedShown ? styles.title : `${styles.title} ${styles.hidden}`} onClick={chooseInvited}>Invited</p>
+                </div>
             </div>
             <MyBookingsList isCreatedShown={isCreatedShown}/>
         </div>

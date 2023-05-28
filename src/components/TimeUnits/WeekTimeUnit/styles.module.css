@@ -1,6 +1,6 @@
 .subTimesWrapper{
     height: 100%;
-    border: 1px solid gray;
+    border: 1px solid rgb(209, 209, 209);
     display: flex;
     flex: 1;
     cursor: pointer;

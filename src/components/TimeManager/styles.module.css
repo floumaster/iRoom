@@ -36,3 +36,52 @@
     display: flex;
     justify-content: center;
 }
+
+.calendar {
+    font-size: 0px !important;
+}
+
+.calendarDay{
+    width: 47.3px !important;
+    height: 47.3px;
+    line-height: 47.3px !important;
+    font-size: 17px;
+}
+
+.calendarDaySelected{
+    width: 47.3px !important;
+    height: 47.3px;
+    line-height: 47.3px !important;
+    font-size: 17px;
+    background-color: red !important;
+}
+
+.monthWrapper{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.headerWrapper{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    top: 12px
+}
+
+.navButton{
+    border: none;
+}
+
+.arrowLeft{
+    width: 20px;
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+
+.arrowRight{
+    width: 20px;
+    transform: rotate(270deg);
+    cursor: pointer;
+}

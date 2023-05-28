@@ -20,7 +20,14 @@ const FilterSection = () => {
     const currentDate = useSelector(store => store.dateSlice.date)
     const times = useSelector(store => store.timesSlice.times)
     const [backupRooms, setBackUpRooms] = useState(rooms)
-    const capacities = [...new Set(backupRooms.map(room => room.capacity))].map(capacity => ({
+    const capacityNumbers = [...new Set(backupRooms.map(room => room.capacity))].sort((a, b) => {
+        if(a > b)
+            return 1
+        else if(a < b)
+            return -1
+        return 0
+    })
+    const capacities = capacityNumbers.map(capacity => ({
         title: `${capacity} seats`,
         type: 'checkbox'
     }))
@@ -180,7 +187,7 @@ const FilterSection = () => {
                                                     <div className={styles.filterSubItemWrapper}>
                                                         {
                                                             subItem.type === 'checkbox' ?
-                                                            <input type="checkbox" className="filterCheckbox"/> :
+                                                            <input type="checkbox" className={styles.filterCheckbox}/> :
                                                             null
                                                         }
                                                         <p className={styles.filterSubItemTitle}>{subItem.title}</p>

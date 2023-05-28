@@ -85,6 +85,9 @@ const MyBookingsList = ({isCreatedShown}) => {
 
     return (
         <div className={styles.wrapper}>
+            {!userBookings.length || !userBookings[0]?.dates?.length ? (
+                <p className={styles.emptyText}>{isCreatedShown ? 'You don`t have any created bookings' : 'You don`t have any invited bookings'}</p>
+            ) : (
             <div className={styles.colsTitle}>
                 <div className={styles.colWrapper}>
                     <p className={styles.colTitle}>Title | Purpose</p>
@@ -101,9 +104,11 @@ const MyBookingsList = ({isCreatedShown}) => {
                 <div className={styles.colWrapperMini}>
                     <p className={styles.colTitle}>Room</p>
                 </div>
-                <div className={styles.colWrapperMini}>
-                </div>
+                {isCreatedShown && <div className={styles.colWrapperMini}>
+                </div>}
             </div>
+            )}
+            
             {
                 userBookings.map(booking => {
                     const purposeValue = getPurposeValueById(booking.purposeId)
@@ -112,8 +117,9 @@ const MyBookingsList = ({isCreatedShown}) => {
                     const bookingsInCurrentRoom = getBookingsByIds(room.bookingsIds)
                     return booking.dates.map(date => {
                         const formatedDate = moment(date).format('MMMM DD, YYYY')
+                        if(moment(date) > moment())
                         return (
-                            <div className={styles.colsTitle}>
+                            <div className={`${styles.colsTitle} ${styles.values}`}>
                                 <div className={styles.colWrapper}>
                                     <p className={styles.colTitle}>{booking.title} | {purposeValue}</p>
                                 </div>
@@ -129,14 +135,14 @@ const MyBookingsList = ({isCreatedShown}) => {
                                 <div className={styles.colWrapperMini}>
                                     <p className={styles.colTitle}>{room.name}</p>
                                 </div>
-                                <div className={styles.colWrapperMini}>
-                                    {isCreatedShown && <>
-                                        <img src={Edit} alt="edit" className={styles.icon} onClick={()=>navigateToBookingEdit(bookingsInCurrentRoom, booking, room, floor)}/>
-                                        <img src={Delete} alt="delete" className={styles.icon} onClick={()=>{handleOpenWarning(booking, bookingsInCurrentRoom, room, floor, date)}}/>
-                                    </>}
-                                </div>
+                                {isCreatedShown &&<div className={styles.colWrapperMini}>
+                                    <img src={Edit} alt="edit" className={styles.icon} onClick={()=>navigateToBookingEdit(bookingsInCurrentRoom, booking, room, floor)}/>
+                                    <img src={Delete} alt="delete" className={styles.icon} onClick={()=>{handleOpenWarning(booking, bookingsInCurrentRoom, room, floor, date)}}/>
+                                </div>}
                             </div>
                         )
+                        else
+                            return null
                     })
                 })
             }

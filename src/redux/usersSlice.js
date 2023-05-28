@@ -60,6 +60,18 @@ export const editUser = createAsyncThunk('editUser', async function(data) {
     return data
 })
 
+export const setUsers = createAsyncThunk('setUsers', async function(data) {
+    const response = await fetch(`http://localhost:3000/user/addUsers`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedResponse = await response.json()
+    return data
+})
+
 export const createUser = createAsyncThunk('createUser', async function(data) {
     const response = await fetch(`http://localhost:3000/user/addUsers`, {
         method: "POST",
@@ -80,9 +92,6 @@ const usersSlice = createSlice({
         error: null
     },
     reducers: {
-        setUsers(state, action){
-            state.users = action.payload
-        },
         addUser(state, action){
             state.users.push(action.payload)
         },
@@ -96,6 +105,9 @@ const usersSlice = createSlice({
         },
         [createUser.fulfilled]: (state, action) => {
             state.users.push(action.payload)
+        },
+        [setUsers.fulfilled]: (state, action) => {
+            state.users = [...state.users, ...action.payload]
         },
         [editUser.fulfilled]: (state, action) => {
             state.users = state.users.map(user => {
@@ -132,4 +144,4 @@ const usersSlice = createSlice({
 })
 
 export default usersSlice.reducer
-export const { setUsers, addUser, logout } = usersSlice.actions
+export const { addUser, logout } = usersSlice.actions

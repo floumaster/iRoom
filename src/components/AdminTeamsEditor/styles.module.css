@@ -8,10 +8,10 @@
 }
 
 .buttonWrapper{
-    width: 200px;
+    width: 170px;
     position: absolute;
     top: 120px;
-    left: 80%;
+    right: 75px;
 }
 
 .floorsWrapper{
@@ -27,7 +27,7 @@
     align-items: center;
     padding-left: 30px;
     padding-right: 30px;
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(243, 243, 243);
     cursor: pointer;
 }
 
