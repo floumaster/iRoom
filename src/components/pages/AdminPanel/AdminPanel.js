@@ -54,7 +54,7 @@ const AdminPanel = () => {
     const getContentTitle = () => {
         switch(activeItemId){
             case 1:
-                return 'Default working hours'
+                return 'Office working hours'
             case 2:
                 return 'Floors'
             case 3: 

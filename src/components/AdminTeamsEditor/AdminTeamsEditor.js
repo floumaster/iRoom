@@ -18,7 +18,7 @@ const AdminTeamsEditor = () => {
 
     const [chosenId, setChosenId] = useState('')
     const [title, setTitle] = useState('')
-    const [color, setColor] = useState('')
+    const [color, setColor] = useState('#000')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
     const [isModalCreateMode, setIsModalCreateMode] = useState(true)
@@ -43,7 +43,7 @@ const AdminTeamsEditor = () => {
             {
                 id: chosenId,
                 name: title,
-                color
+                color: color || '#fff'
             }
         ))
         closeFloorCreateModal()
@@ -54,7 +54,7 @@ const AdminTeamsEditor = () => {
             {
                 id: uuidv4(),
                 name: title,
-                color
+                color: color || '#fff'
             },
         ))
         closeFloorCreateModal()

@@ -76,7 +76,11 @@ const floorsSlice = createSlice({
         [editFloor.fulfilled]: (state, action) => {
             state.floors = state.floors.map(floor => {
                 if(floor.id === action.payload.id)
-                    return action.payload
+                    return {
+                        ...floor,
+                        id: action.payload.id,
+                        name: action.payload.name,
+                    }
                 else
                     return floor
             })

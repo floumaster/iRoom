@@ -58,7 +58,8 @@ const Register = () => {
                     <div className={styles.inputWrapper}>
                         <label className={styles.label} >Email</label>
                         <input className={styles.input} {...register("email")}/>
-                        <p className={styles.errorText}>{errors.email?.message}</p>
+                        {errors.email?.message ? <p className={styles.errorText}>{errors.email?.message}</p> :
+                        <p className={styles.errorText}>{error}</p>}
                     </div>
                     <div className={styles.inputWrapper}>
                         <label className={styles.label}>Password</label>
@@ -71,7 +72,6 @@ const Register = () => {
                         <p className={styles.errorText}>{errors.confirmPassword?.message}</p>
                     </div>
                     <button className={styles.button} type="submit">Sign up</button>
-                    <p className={styles.errorText}>{error}</p>
                     <div className={styles.subButtonsWrapper}>
                         <p className={styles.subButton} onClick={navigateToLogin}>Sign in</p>
                     </div>

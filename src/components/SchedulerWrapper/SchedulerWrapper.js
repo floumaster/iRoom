@@ -32,11 +32,27 @@ const SchedulerWrapper = () => {
         }))
     }
 
+    const floors = useSelector(store => store.floorsSlice.floors)
+    const rooms = useSelector(store => store.roomsSlice.rooms)
+
+    let isAnyRoom = false
+    
+    const getRoomsByFloor = (floor) => {
+        const roomsIds = floor.roomsIds
+        return rooms.filter(room => roomsIds.includes(room.id))
+    }
+
+    floors.forEach(floor => {
+        const roomsInFloor = getRoomsByFloor(floor)
+        if(roomsInFloor.length)
+            isAnyRoom = true
+    })
+
     return (
         <div className={styles.schedulerWrapper}>
             <nav className={styles.periodSwitcher}>
                 {
-                    periods.map(period => {
+                    isAnyRoom && periods.map(period => {
                         const currentPeriodClassname = currentPeriod.id === period.id ? `${styles.periodName} ${styles.activePeriod}` : styles.periodName
 
                         return (
@@ -50,7 +66,7 @@ const SchedulerWrapper = () => {
                     })
                 }
             </nav>
-            <Scheduler />
+            <Scheduler isAnyRoom={isAnyRoom}/>
         </div>
     )
 }

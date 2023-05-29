@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const addTeam = createAsyncThunk('addTeam', async function(team) {
+    console.log(team)
     const response = await fetch(`http://localhost:3000/team/addTeam`, {
         method: "POST",
         headers: {

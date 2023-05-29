@@ -40,3 +40,22 @@
 .subtime:hover, .subtimeBooked:hover{
     background-color: rgb(185, 185, 185)!important;
 }
+
+.noRoomsWarningImg{
+    display: block;
+    width: 300px;
+}
+
+.noRoomsWarning{
+    margin-top: 120px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.warningTitle{
+    font-size: 26px;
+    font-weight: bold;
+}

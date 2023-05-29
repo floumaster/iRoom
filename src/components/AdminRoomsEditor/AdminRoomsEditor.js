@@ -87,8 +87,8 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
     }, [title, capacity, selectedAssetId])
 
     const dispatch = useDispatch()
-    
     const selectedFloor = useSelector(store => store.floorsSlice.floors).find(floor => floor.id === floorId)
+    console.log(selectedFloor)
     const rooms = useSelector(store => store.roomsSlice.rooms).filter(room => selectedFloor.roomsIds.includes(room.id))
     const assets = useSelector(store => store.assetsSlice.assets)
 

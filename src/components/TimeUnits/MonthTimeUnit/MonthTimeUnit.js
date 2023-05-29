@@ -12,7 +12,8 @@ const MonthTimeUnit = ({ time, bookingsInCurrentRoom, timeAvailability }) => {
             <div className={styles.daysInWeekWrapper}>
                 {
                     time.days.map(day => {
-                        const availableTimes = day.timeAvailability || times.length * 4
+                        //const availableTimes = day.timeAvailability || times.length * 4
+                        const availableTimes = day.timeAvailability
                         const color = getColorByDayAvailability(availableTimes, times)
                         return (
                             <div className={styles.dayInWeekWrapper}>
