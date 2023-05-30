@@ -122,7 +122,7 @@ const FilterSection = () => {
     }
 
     const handleResetFilter = (e) => {
-        Array.from(document.getElementsByClassName('filterCheckbox')).forEach(element => element.checked = false)
+        Array.from(document.getElementsByClassName(styles.filterCheckbox)).forEach(element => element.checked = false)
         e.preventDefault()
         dispatch(setFloors([...backupFloors]))
         dispatch(setRooms([...backupRooms]))
@@ -200,17 +200,6 @@ const FilterSection = () => {
                             )
                         })
                     }
-                </div>
-                <p className={styles.filterItemTitle}>Available</p>
-                <div className={styles.rangeWrapper}>
-                    <div className={styles.startRangeWrapper}>
-                        <p className={styles.startRangeTitle}>From</p>
-                        <input className={styles.startRangeInput}/>
-                    </div>
-                    <div className={styles.startRangeWrapper}>
-                        <p className={styles.startRangeTitle}>To</p>
-                        <input className={styles.startRangeInput} />
-                    </div>
                 </div>
                 <div className={styles.buttonsWrapper}>
                     <div className={styles.buttonWrapper}>

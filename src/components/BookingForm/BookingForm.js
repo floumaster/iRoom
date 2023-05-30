@@ -175,7 +175,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
         navigateToHome()
     }
 
-    const isButtonDisabled = title.length === 0
+    const isSubmitButtonDisabled = !title.length || !purpose.length || !selectedTeam.length || !selectedRecurring
 
     return (
         <div className={styles.formWrapper}>
@@ -186,11 +186,25 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 <div className={styles.timePickerWrapper}>
                     <div className={styles.startTimePickerWrapper}>
                         <p className={styles.optionText}>Start Time</p>
-                        <Dropdown options={startTimes} value={selectedStartTime} onChange={handleStartTimeChange} className={styles.dropDownWrapper}/>
+                        <Dropdown
+                            options={startTimes}
+                            value={selectedStartTime}
+                            onChange={handleStartTimeChange}
+                            className={styles.dropDownWrapper}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            arrowClassName={styles.dropDownArrow}
+                        />
                     </div>
                     <div className={styles.startTimePickerWrapper}>
                         <p className={styles.optionText}>End Time</p>
-                        <Dropdown options={endTimes} value={selectedEndTime} onChange={handleEndTimeChange} className={styles.dropDownWrapper}/>
+                        <Dropdown
+                            options={endTimes}
+                            value={selectedEndTime}
+                            onChange={handleEndTimeChange}
+                            className={styles.dropDownWrapper}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            arrowClassName={styles.dropDownArrow}
+                        />
                     </div>
                 </div>
                 <div className={styles.timePickerWrapper}>
@@ -202,25 +216,52 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                 <div className={styles.timePickerWrapper}>
                     <div className={styles.inputWrapper}>
                         <p className={styles.optionText}>Business unit</p>
-                        <Dropdown options={teams} value={selectedTeam} onChange={handleBusinessUnitChange} className={styles.dropDownWrapper}/>
+                        <Dropdown
+                            options={teams}
+                            value={selectedTeam}
+                            onChange={handleBusinessUnitChange}
+                            className={styles.dropDownWrapper}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            arrowClassName={styles.dropDownArrow}
+                        />
                     </div>
                 </div>
                 <div className={styles.timePickerWrapper}>
                     <div className={styles.inputWrapper}>
                         <p className={styles.optionText}>Purpose</p>
-                        <Dropdown options={purposes} value={purpose} onChange={handlePurposeChange} className={styles.dropDownWrapper}/>
+                        <Dropdown
+                            options={purposes}
+                            value={purpose}
+                            onChange={handlePurposeChange}
+                            className={styles.dropDownWrapper}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            arrowClassName={styles.dropDownArrow}
+                        />
                     </div>
                 </div>
                 <div className={styles.timePickerWrapper}>
                     <div className={styles.inputWrapper}>
                         <p className={styles.optionText}>Recurring</p>
-                        <Dropdown options={recurrings} value={selectedRecurring} onChange={handleRecurringChange} className={styles.dropDownWrapper}/>
+                        <Dropdown
+                            options={recurrings}
+                            value={selectedRecurring}
+                            onChange={handleRecurringChange}
+                            className={styles.dropDownWrapper}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            arrowClassName={styles.dropDownArrow}
+                        />
                     </div>
                 </div>
-                {selectedRecurring !== 'No recurring' && <div className={styles.timePickerWrapper}>
+                {selectedRecurring !== 'No recurring' && selectedRecurring && <div className={styles.timePickerWrapper}>
                     <div className={styles.inputWrapper}>
                         <p className={styles.optionText}>Recurring end date</p>
-                        <DatePicker selected={recurringEndDate} onChange={(date) => setRecurringEndDate(date)} customInput={<ExampleCustomInput />}/>
+                        <DatePicker
+                            selected={recurringEndDate}
+                            onChange={(date) => setRecurringEndDate(date)}
+                            customInput={<ExampleCustomInput />}
+                            placeholderClassName={styles.dropDownPlaceholder}
+                            minDate={new Date(currentDate.format('YYYY/MM/DD'))}
+                        />
                     </div>
                 </div>}
                 <div className={styles.timePickerWrapper}>
@@ -230,8 +271,12 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                     </div>
                 </div>
                 <div className={styles.buttonsWrapper}>
-                    <PrimaryButton text="SUBMIT" isDisabled={isButtonDisabled} onClick={handleBookingCreate}/>
-                    <CommonButton text="RESET"/>
+                    <div className={styles.buttonWrapper}>
+                        <CommonButton text="RESET" onClick={navigateToHome}/>
+                    </div>
+                    <div className={styles.buttonWrapper}>
+                        <PrimaryButton text="SUBMIT" onClick={handleBookingCreate} isDisabled={isSubmitButtonDisabled}/>
+                    </div>
                 </div>
             </div>
         </div>

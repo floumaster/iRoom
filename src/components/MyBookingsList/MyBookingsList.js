@@ -85,7 +85,7 @@ const MyBookingsList = ({isCreatedShown}) => {
 
     return (
         <div className={styles.wrapper}>
-            {!userBookings.length || !userBookings[0]?.dates?.length ? (
+            {!userBookings.length || userBookings.every(booking => booking.dates?.length === 0) ? (
                 <p className={styles.emptyText}>{isCreatedShown ? 'You don`t have any created bookings' : 'You don`t have any invited bookings'}</p>
             ) : (
             <div className={styles.colsTitle}>

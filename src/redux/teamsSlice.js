@@ -6,8 +6,8 @@ export const addTeam = createAsyncThunk('addTeam', async function(team) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            body: JSON.stringify(team)
         },
+        body: JSON.stringify(team)
     })
     const parsedResponse = await response.json()
     return team
@@ -19,8 +19,8 @@ export const editTeam = createAsyncThunk('editTeam', async function(team) {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            body: JSON.stringify(team)
         },
+        body: JSON.stringify(team)
     })
     const parsedResponse = await response.json()
     return team
