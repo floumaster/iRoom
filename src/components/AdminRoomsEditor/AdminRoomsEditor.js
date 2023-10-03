@@ -159,7 +159,7 @@ const AdminRoomsEditor = ({ floorId, setContentTitle, unselectFloor }) => {
                         <p className={styles.colTitle}>Assets</p>
                     </div>
                     <div className={styles.colWrapperLast}>
-                        
+                        <p className={styles.colTitle}>Actions</p>
                     </div>
                 </div>
                 {

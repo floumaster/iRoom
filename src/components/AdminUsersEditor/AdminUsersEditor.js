@@ -234,6 +234,7 @@ const AdminUsersEditor = ({ }) => {
                         <p className={styles.colTitle}>Business unit</p>
                     </div>
                     <div className={styles.colWrapperExtra}>
+                        <p className={styles.colTitle}>Actions</p>
                     </div>
                 </div>
                 {

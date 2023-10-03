@@ -105,6 +105,7 @@ const MyBookingsList = ({isCreatedShown}) => {
                     <p className={styles.colTitle}>Room</p>
                 </div>
                 {isCreatedShown && <div className={styles.colWrapperMini}>
+                    <p className={styles.colTitle}>Actions</p>
                 </div>}
             </div>
             )}

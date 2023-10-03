@@ -24,7 +24,8 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
     const [selectedFloorId, setSelectedFloorId] = useState('')
     const [isModalCreateMode, setIsModalCreateMode] = useState(true)
 
-    const selectFloor = (id) => {
+    const selectFloor = (id, floorName) => {
+        setContentTitle(`Floor ${floorName}`)
         setSelectedFloorId(id)
     }
 
@@ -124,7 +125,7 @@ const AdminFloorsEditor = ({ setContentTitle }) => {
                         {
                             floors.map(floor => {
                                 return (
-                                    <div className={floor.id === selectedFloorId ? `${styles.floorWrapper} ${styles.selected}` : styles.floorWrapper} onClick={() => selectFloor(floor.id)}>
+                                    <div className={floor.id === selectedFloorId ? `${styles.floorWrapper} ${styles.selected}` : styles.floorWrapper} onClick={() => selectFloor(floor.id, floor.name)}>
                                         <p className={styles.floorTitle}>Floor {floor.name}</p>
                                         <div className={styles.iconWrapper}>
                                             <img src={Edit} alt="edit" className={styles.icon} onClick={(e) => handleOpenEditForm(e, floor)}/>

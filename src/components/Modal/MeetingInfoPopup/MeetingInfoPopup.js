@@ -16,6 +16,7 @@ const MeetingInfoPopup = ({handleClosePopup}) => {
     const floors = useSelector(store => store.floorsSlice.floors)
     const teams = useSelector(store => store.teamsSlice.teams)
     const users = useSelector(store => store.usersSlice.users)
+    const purposes = useSelector(store => store.purposesSlice.purposes)
     const currentRoom = rooms.find(room => room.id === bookingInfo.roomId)
     const currentFloor = floors.find(floor => floor.id === currentRoom.floorId)
     const currentTeam = teams.find(team => team.id === bookingInfo.teamId)
@@ -60,9 +61,14 @@ const MeetingInfoPopup = ({handleClosePopup}) => {
 
     const handleEmailClick = () => {
         const recipientEmail = currentUser.email;
-        const subject = `${bookingInfo.title}, ${currentDate.format('YYYY-MM-DD')}`;
+        const purpose = purposes.find(purpose => purpose.id === bookingInfo.purposeId)
+        const subject = `${bookingInfo.title} | ${purpose?.value}, ${currentDate.format('YYYY-MM-DD')}`;
         const mailtoUrl = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}`;
-        window.location.href = mailtoUrl;
+        //window.location.href = mailtoUrl;
+        window.open(
+            mailtoUrl,
+            '_blank'
+          );
     };
     
     return (

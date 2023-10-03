@@ -5,7 +5,7 @@ import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton';
 import { setTimes } from '../../redux/timesSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 
@@ -24,9 +24,11 @@ const AdminTimeEditor = () => {
 
     const availableTimes = getAllAvailableTimes()
 
-    const [timeStart, setTimeStart] = useState('6')
+    const times = useSelector(store => store.timesSlice.times).map(time => time.time)
 
-    const [timeEnd, setTimeEnd] = useState('22')
+    const [timeStart, setTimeStart] = useState(times[0])
+
+    const [timeEnd, setTimeEnd] = useState(times[times.length - 1])
 
     const getAvailableEndTimes = (timeStart) => {
         const endTimes = availableTimes.filter(time => {

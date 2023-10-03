@@ -44,7 +44,7 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
     const [purpose, setPurpose] = useState(isEditMode ? getPuproseNameById(bookingNow.purposeId) : '')
     const [description, setDescription] = useState(isEditMode ? bookingNow.description : '')
     const [selectedTeam, setSelectedTeam] = useState(isEditMode ? getTeamNameById(bookingNow.teamId) : null)
-    const [selectedRecurring, setSelectedRecurring] = useState(null)
+    const [selectedRecurring, setSelectedRecurring] = useState('No recurring')
     const [recurringEndDate, setRecurringEndDate] = useState(currentDate.toDate());
 
     const handleTitleChange = (e) => {
