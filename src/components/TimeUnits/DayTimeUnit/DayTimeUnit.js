@@ -25,7 +25,6 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeti
     }
 
     const onExistingBookingClick = (bookingNow) => {
-        console.log(bookingNow, currentUser)
         dispatch(setBookingContent({
             ...bookingNow,
             userClicked: currentUser,
@@ -41,6 +40,10 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeti
         setHoveredMeeting(id)
     }
 
+    const getBookingColor = (bookingNow) => {
+        return bookingNow ? bookingNow.id === hoveredMeeting ? 'rgb(185, 185, 185)' : bookingNow?.userId === currentUser?.id ? '#facd1b' : '#1b8efa' : 'transparent'
+    }
+
     return (
         <div className={styles.subTimesWrapper} >
             {
@@ -53,7 +56,7 @@ const DayTimeUnit = ({ time, bookingsInCurrentRoom, room, floor, setHoveredMeeti
                     return (
                         <div
                             className={bookingNow ? styles.subtimeBooked : styles.subtime}
-                            style={{backgroundColor: bookingNow ? bookingNow.id === hoveredMeeting ? 'rgb(185, 185, 185)' : bookedTeam?.color : 'transparent'}}
+                            style={{backgroundColor: getBookingColor(bookingNow)}}
                             onClick={() => {
                                 if(!bookingNow)
                                     navigateToBookingCreate(`${time.title}:${minute}`)

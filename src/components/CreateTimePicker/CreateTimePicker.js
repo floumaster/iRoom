@@ -13,6 +13,7 @@ const CreateTimePicker = ({ selectedStartTime, selectedEndTime, currentBooking }
     const teams = useSelector(store => store.teamsSlice.teams)
     const bookings = useSelector(store => store.bookingsSlice.bookings)
     const [globalTimeStyle, setGlobalTimeStyle] = useState(styles.invisible)
+    const currentUser = useSelector(store => store.usersSlice.currentUser)
 
     const {state: {bookingsInCurrentRoom, room}} = useLocation();
 
@@ -41,6 +42,14 @@ const CreateTimePicker = ({ selectedStartTime, selectedEndTime, currentBooking }
         return () => clearInterval(intervalId);
     }, [])
 
+    const getBookingColor = (bookingNow, isSelectedTime) => {
+        if(bookingNow){
+            // console.log(bookingNow)
+            // console.log(bookingNow?.userId === currentUser?.id)
+        }
+        return bookingNow ? bookingNow?.userId === currentUser?.id ? '#facd1b' : '#1b8efa' : isSelectedTime ? currentBooking ? '#facd1b' : 'rgb(185, 185, 185)' : 'transparent'
+    }
+
     return (
         <div className={styles.timePickerContainer}>
             <div className={styles.timePickerHeader}>
@@ -59,6 +68,7 @@ const CreateTimePicker = ({ selectedStartTime, selectedEndTime, currentBooking }
                                         minutes.map(minute => {
                                             const formatedTime = `${time.title}:${minute}`
                                             let bookingNow = checkTimeForBooking(formatedTime, bookingsInCurrentRoom, currentDate)
+                                            console.log(bookingNow, currentBooking, bookingNow?.id === currentBooking?.id ? null : bookingNow)
                                             bookingNow = bookingNow?.id === currentBooking?.id ? null : bookingNow
                                             let bookedTeam = null
                                             const isSelectedTime = checkTimeForSelecting(formatedTime)
@@ -67,7 +77,7 @@ const CreateTimePicker = ({ selectedStartTime, selectedEndTime, currentBooking }
                                             else if(currentBooking)
                                                 bookedTeam = getTeamByBooking(currentBooking)
                                             return (
-                                                <div className={isSelectedTime ? `${styles.minute} ${globalTimeStyle}` : styles.minute} style={{backgroundColor: bookingNow ? bookedTeam.color : isSelectedTime ? currentBooking ? bookedTeam.color : 'rgb(185, 185, 185)' : 'transparent'}}>
+                                                <div className={isSelectedTime ? `${styles.minute} ${globalTimeStyle}` : styles.minute} style={{backgroundColor:getBookingColor(bookingNow, isSelectedTime)}}>
                                                 </div>
                                             )
                                         })

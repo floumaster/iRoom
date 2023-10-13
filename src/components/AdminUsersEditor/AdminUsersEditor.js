@@ -124,7 +124,6 @@ const AdminUsersEditor = ({ }) => {
     const processCsvUsers = (file) => {
         const rows = file.split('\r\n')
         const importedUsers = []
-        console.log(rows, teams)
         rows.forEach(row => {
             const splitedRow = row.split(';')
             if(splitedRow[0]){
@@ -230,9 +229,6 @@ const AdminUsersEditor = ({ }) => {
                     <div className={styles.colWrapper}>
                         <p className={styles.colTitle}>Email</p>
                     </div>
-                    <div className={styles.colWrapper}>
-                        <p className={styles.colTitle}>Business unit</p>
-                    </div>
                     <div className={styles.colWrapperExtra}>
                         <p className={styles.colTitle}>Actions</p>
                     </div>
@@ -250,9 +246,6 @@ const AdminUsersEditor = ({ }) => {
                                 </div>
                                 <div className={styles.colWrapper}>
                                     <p className={styles.colTitle}>{user.email}</p>
-                                </div>
-                                <div className={styles.colWrapper}>
-                                    <p className={styles.colTitle}>{teamName}</p>
                                 </div>
                                 <div className={styles.colWrapperExtra}>
                                     <img src={Edit} alt="edit" className={styles.icon} onClick={(e) => handleOpenEditForm(e, user)}/>

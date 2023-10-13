@@ -11,7 +11,6 @@ const ContentWrapper = () => {
             <div className={styles.contentLeftWrapper}>
                 <TimeManager title="Book a room"/>
                 <FilterSection />
-                <Teams />
             </div>
             <div className={styles.contentRightWrapper}>
                 <SchedulerWrapper />

@@ -41,9 +41,9 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
     const startTimes = getAllAvailableStartTimes(times, bookingsInCurrentRoom, currentDate, bookingNow)
     const endTimes = getAllAvailableEndTimes(times, bookingsInCurrentRoom, currentDate, selectedStartTime, bookingNow)
     const [title, setTitle] = useState(isEditMode ? bookingNow.title : '')
-    const [purpose, setPurpose] = useState(isEditMode ? getPuproseNameById(bookingNow.purposeId) : '')
+    const [purpose, setPurpose] = useState(isEditMode ? getPuproseNameById(bookingNow.purposeId) : 'Grooming')
     const [description, setDescription] = useState(isEditMode ? bookingNow.description : '')
-    const [selectedTeam, setSelectedTeam] = useState(isEditMode ? getTeamNameById(bookingNow.teamId) : null)
+    const [selectedTeam, setSelectedTeam] = useState(isEditMode ? getTeamNameById(bookingNow.teamId) : 'Spin')
     const [selectedRecurring, setSelectedRecurring] = useState('No recurring')
     const [recurringEndDate, setRecurringEndDate] = useState(currentDate.toDate());
 
@@ -211,32 +211,6 @@ const BookingForm = ({ selectedStartTime, setSelectedStartTime, selectedEndTime,
                     <div className={styles.inputWrapper}>
                         <p className={styles.optionText}>Title</p>
                         <input className={styles.input} type="text" value={title} onChange={handleTitleChange} maxLength={64}/>
-                    </div>
-                </div>
-                <div className={styles.timePickerWrapper}>
-                    <div className={styles.inputWrapper}>
-                        <p className={styles.optionText}>Business unit</p>
-                        <Dropdown
-                            options={teams}
-                            value={selectedTeam}
-                            onChange={handleBusinessUnitChange}
-                            className={styles.dropDownWrapper}
-                            placeholderClassName={styles.dropDownPlaceholder}
-                            arrowClassName={styles.dropDownArrow}
-                        />
-                    </div>
-                </div>
-                <div className={styles.timePickerWrapper}>
-                    <div className={styles.inputWrapper}>
-                        <p className={styles.optionText}>Purpose</p>
-                        <Dropdown
-                            options={purposes}
-                            value={purpose}
-                            onChange={handlePurposeChange}
-                            className={styles.dropDownWrapper}
-                            placeholderClassName={styles.dropDownPlaceholder}
-                            arrowClassName={styles.dropDownArrow}
-                        />
                     </div>
                 </div>
                 <div className={styles.timePickerWrapper}>

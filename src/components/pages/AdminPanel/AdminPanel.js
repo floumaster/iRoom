@@ -35,20 +35,10 @@ const AdminPanel = () => {
             component: <AdminAssetsEditor />
         },
         {
-            id: 4,
-            name: 'Purposes',
-            component: <AdminPurposesEditor />
-        },
-        {
             id: 5,
             name: 'Users',
             component: <AdminUsersEditor />
         },
-        {
-            id: 6,
-            name: 'Business units',
-            component: <AdminTeamsEditor />
-        }
     ]
 
     const getContentTitle = () => {
@@ -59,12 +49,8 @@ const AdminPanel = () => {
                 return 'Floors'
             case 3: 
                 return 'Assets'
-            case 4:
-                return 'Purposes'
             case 5:
                 return 'Users'
-            case 6:
-                return 'Business units'
             default:
                 return ''
         }

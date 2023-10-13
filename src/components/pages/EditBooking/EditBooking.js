@@ -11,7 +11,6 @@ const EditBooking = () => {
 
     const [selectedStartTime, setSelectedStartTime] = useState(bookingNow.timeStart)
     const [selectedEndTime, setSelectedEndTime] = useState(bookingNow.timeEnd)
-    
     return (
         <div className={styles.contentWrapper}>
             <TimeManager title={title}/>

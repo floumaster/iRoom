@@ -15,10 +15,6 @@ const DropdownWithCheckBoxes = ({ items, itemName, onChange, selectedIds }) => {
         onChange(selectedItems)
     }, [selectedItems])
 
-    useEffect(() => {
-        console.log(selectedItems)
-    }, [selectedItems])
-
     const selectItem = (item) => {
         setSelectedItems(selectedItems => [...selectedItems, item])
         const unselectedItemsNew = [...unselectedItem].filter(_item => _item.id !== item.id)

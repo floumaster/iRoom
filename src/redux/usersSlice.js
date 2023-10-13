@@ -48,7 +48,6 @@ export const deleteUser = createAsyncThunk('deleteUser', async function(id) {
 })
 
 export const editUser = createAsyncThunk('editUser', async function(data) {
-    console.log(data)
     const response = await fetch(`http://localhost:3000/user/editUser`, {
         method: "PUT",
         headers: {

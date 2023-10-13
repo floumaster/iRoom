@@ -18,7 +18,7 @@ const MyBookingsList = ({isCreatedShown}) => {
     const purposes = useSelector(store => store.purposesSlice.purposes)
     const floors = useSelector(store => store.floorsSlice.floors)
     const rooms = useSelector(store => store.roomsSlice.rooms)
-    const userBookings = isCreatedShown ? bookings.filter(booking => booking.userId === user.id) : bookings.filter(booking => booking.teamId === usersTeam.id)
+    const userBookings = isCreatedShown ? bookings.filter(booking => booking.userId === user?.id) : bookings.filter(booking => booking.teamId === usersTeam?.id)
     const [isWarningVisible, setIsWarningVisible] = useState(false)
     const [currentBooking, setCurrentBooking] = useState({})
     const [dateToDelete, setDateToDelete] = useState({})
