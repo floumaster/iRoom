@@ -79,7 +79,6 @@ function App() {
       <main className={styles.mainWrapper} >
         <RouterProvider router={router} />
       </main>
-      <VoiceHelper />
     </div>
   );
 }

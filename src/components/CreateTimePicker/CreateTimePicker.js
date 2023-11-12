@@ -68,7 +68,6 @@ const CreateTimePicker = ({ selectedStartTime, selectedEndTime, currentBooking }
                                         minutes.map(minute => {
                                             const formatedTime = `${time.title}:${minute}`
                                             let bookingNow = checkTimeForBooking(formatedTime, bookingsInCurrentRoom, currentDate)
-                                            console.log(bookingNow, currentBooking, bookingNow?.id === currentBooking?.id ? null : bookingNow)
                                             bookingNow = bookingNow?.id === currentBooking?.id ? null : bookingNow
                                             let bookedTeam = null
                                             const isSelectedTime = checkTimeForSelecting(formatedTime)

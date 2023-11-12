@@ -7,9 +7,9 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF('/model/source/Car.gltf')
+  const { nodes, materials } = useGLTF('/model/source/HelloAnim.glb')
   return (
-    <group {...props} dispose={null} scale={0.2}>
+    <group {...props} dispose={null} scale={0.3}>
       <mesh geometry={nodes.Car_Modified.geometry} material={materials.Car_Modified} rotation={[Math.PI / 2, 0, -Math.PI / 2]} />
     </group>
   )

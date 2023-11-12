@@ -8,6 +8,7 @@ import bookingsIcon from '../../assets/icons/bookings.svg'
 import adminIcon from '../../assets/icons/admin.svg'
 import availabilityIcon from '../../assets/icons/availability.svg'
 import logoIcon from '../../assets/icons/logo.svg'
+import VoiceHelper from "../VoiceHelper/VoiceHelper";
 
 const Header = () => {
 
@@ -66,6 +67,7 @@ const Header = () => {
                     <p className={styles.menuItem} onClick={onAuthButtonClick}>{authButtonText}</p>
                 </div>
             </div>
+            <VoiceHelper />
         </header>
     )
 }

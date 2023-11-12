@@ -1,15 +1,23 @@
 .helperWindow{
     position: fixed;
     width: 300px;
-    height: 300px;
-    top: 50px;
+    bottom: 50px;
     right: 50px;
     background-color: white;
     border: 4px solid black;
+    z-index: 3;
   }
   
   .microWrapper{
-    top: -60px;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100px;
+  }
+
+  .modelWrapper{
+    width: 100%;
+    height: 200px;
     position: relative;
   }
   
@@ -19,7 +27,18 @@
     cursor: pointer;
     transition: all 0.2s;
   }
+
+  .monologue{
+    width: 200px;
+  }
   
   .icon:hover{
     scale: 1.2;
+  }
+
+  .dialogWrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }

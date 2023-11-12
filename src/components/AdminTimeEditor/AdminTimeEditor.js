@@ -62,6 +62,7 @@ const AdminTimeEditor = () => {
             })
         }
         times.pop()
+        console.log(times)
         dispatch(setTimes(times))
         navigate('/')
     }
