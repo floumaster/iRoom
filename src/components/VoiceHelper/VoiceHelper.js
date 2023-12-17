@@ -857,10 +857,10 @@ between ${booking.timeStart} and ${booking.timeEnd} with ${description} descript
         if(transcript === 'create'){
             succressResultAnim()
             handleBookingCreate()
+            setRecordingType(0)
         }
         else{
             wrongResultAnim()
-            setRecordingType(0)
         }
     }
 
